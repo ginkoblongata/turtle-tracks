@@ -1,7 +1,7 @@
 
-Turtle Tracks  source distribution
+Turtle Tracks source distribution
 version 1.0 (13 November 1999)
-Copyright (C) 1997-1999  Daniel Azuma
+Copyright (C) 1997-2024  Daniel Azuma
 All rights reserved worldwide
 
 
