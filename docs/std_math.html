@@ -1,0 +1,1149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<a name="top">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>Mathematical Operations</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<a href="#_logical"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Logical operations</a>
+<br>
+<a href="#_bitwise"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Bitwise operations</a>
+<br>
+<a href="#_comparison"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Numeric comparison operations</a>
+<br>
+<a href="#_arithmetic"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Arithmetic operations</a>
+<br>
+<a href="#_trigonometric"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Trigonometric operations</a>
+<p>
+<b><i>Prev:</i> <a href="std_io.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Input/output</a></b>
+<br>
+<b><i>Next:</i> <a href="std_work.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Workspace Management</a></b>
+<br>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+
+<p>
+Unless otherwise indicated, all these primitives are in <tt><i>virtuoso.logo.lib.StandardPrimitives</i></tt>.
+</p>
+
+<a name="_logical">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Logical operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These are the logical operations supported by Turtle Tracks.
+</p>
+
+<a name="true">
+<p>
+<hr align=left width="50%">
+<b>TRUE</b>
+</p>
+
+<p>
+TRUE returns the boolean value true.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> IFELSE TRUE [PRINT "true] [PRINT "false]</tt>
+<br>
+<tt><b>TRUE</b></tt>
+</blockquote>
+
+<a name="false">
+<p>
+<hr align=left width="50%">
+<b>FALSE</b>
+</p>
+
+<p>
+FALSE returns the boolean value false.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> IFELSE FALSE [PRINT "true] [PRINT "false]</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="not">
+<p>
+<hr align=left width="50%">
+<b>NOT</b> <i>expr</i>
+</p>
+
+<p>
+NOT returns the logical opposite of the argument. If the argument is not a boolean value, NOT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> IFELSE NOT FALSE [PRINT "true] [PRINT "false]</tt>
+<br>
+<tt><b>TRUE</b></tt>
+</blockquote>
+
+<a name="allof">
+<p>
+<hr align=left width="50%">
+<b>ALLOF</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>AND</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>ALLOF</b> <i>expr1</i> ...<b>)</b>
+<br>
+<b>(</b><b>AND</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+ALLOF returns true if all its arguments are true, or false if any of its arguments are false. If any argument is not a boolean value, ALLOF throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ALLOF TRUE TRUE</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT (ALLOF TRUE FALSE TRUE)</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="anyof">
+<p>
+<hr align=left width="50%">
+<b>ANYOF</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>OR</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>ANYOF</b> <i>expr1</i> ...<b>)</b>
+<br>
+<b>(</b><b>OR</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+ANYOF returns true if any of its arguments are true, or false if all of its arguments are false. If any argument is not a boolean value, ANYOF throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ANYOF TRUE FALSE</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT (ANYOF FALSE FALSE FALSE)</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_bitwise">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Bitwise operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These are the bitwise operations supported by Turtle Tracks.
+</p>
+
+<a name="bitnot">
+<p>
+<hr align=left width="50%">
+<b>BITNOT</b> <i>expr</i>
+</p>
+
+<p>
+BITNOT returns the bitwise not of the argument. If the argument is not an integer, BITNOT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT BITNOT 1</tt>
+<br>
+<tt><b>-2</b></tt>
+</blockquote>
+
+<a name="bitand">
+<p>
+<hr align=left width="50%">
+<b>BITAND</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>BITAND</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+BITAND returns the bitwise and of the arguments. If an argument is not an integer, BITAND throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT BITAND 14 7 ;binary 1110 and 0111 yields binary 0110</tt>
+<br>
+<tt><b>6</b></tt>
+<br>
+<tt><b>?</b> PRINT (BITAND 14 7 9) ;and of 1110, 0111 and 1001 yields 0000</tt>
+<br>
+<tt><b>0</b></tt>
+</blockquote>
+
+<a name="bitor">
+<p>
+<hr align=left width="50%">
+<b>BITOR</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>BITOR</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+BITOR returns the bitwise or of the arguments. If an argument is not an integer, BITOR throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT BITOR 12 6 ;binary 1100 and 0110 yields binary 1110</tt>
+<br>
+<tt><b>14</b></tt>
+<br>
+<tt><b>?</b> PRINT (BITOR 12 6 33) ;or of 1100, 0110 and 100001 yields 101111</tt>
+<br>
+<tt><b>47</b></tt>
+</blockquote>
+
+<a name="bitxor">
+<p>
+<hr align=left width="50%">
+<b>BITXOR</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>BITXOR</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+BITXOR returns the bitwise exclusive or of the arguments. If an argument is not an integer, BITXOR throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT BITXOR 12 6 ;binary 1100 and 0110 yields binary 1010</tt>
+<br>
+<tt><b>10</b></tt>
+<br>
+<tt><b>?</b> PRINT (BITXOR 12 6 4) ;xor of 1100, 0110 and 0100 yields 1110</tt>
+<br>
+<tt><b>14</b></tt>
+</blockquote>
+
+<a name="lshift">
+<p>
+<hr align=left width="50%">
+<b>LSHIFT</b> <i>num1</i> <i>num2</i>
+</p>
+
+<p>
+LSHIFT shifts the bits of the first number left by the second number. To shift right, pass a negative number as the second argument. 0's shifted into all vacated digits. If an argument is not an integer, LSHIFT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LSHIFT 13 1</tt>
+<br>
+<tt><b>26</b></tt>
+<br>
+<tt><b>?</b> PRINT LSHIFT 27 -2</tt>
+<br>
+<tt><b>6</b></tt>
+<br>
+<tt><b>?</b> PRINT LSHIFT -7 -1</tt>
+<br>
+<tt><b>2147483644</b></tt>
+</blockquote>
+
+<a name="ashift">
+<p>
+<hr align=left width="50%">
+<b>ASHIFT</b> <i>num1</i> <i>num2</i>
+</p>
+
+<p>
+ASHIFT shifts the bits of the first number left by the second number. To shift right, pass a negative number as the second argument. ASHIFT preserves the sign of the number. That is, if the number is being shifted to the right, and the high-order bit of the original number is a 1, then 1's are shifted into the left end. If the high-order bit of the original number is a 0, then 0's are shifted into the left end. If an argument is not an integer, ASHIFT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ASHIFT 13 1</tt>
+<br>
+<tt><b>26</b></tt>
+<br>
+<tt><b>?</b> PRINT ASHIFT 27 -2</tt>
+<br>
+<tt><b>6</b></tt>
+<br>
+<tt><b>?</b> PRINT ASHIFT -7 -1</tt>
+<br>
+<tt><b>-4</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_comparison">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Comparison operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These are the numeric comparison operations supported by Turtle Tracks.
+</p>
+
+<a name="equalp">
+<p>
+<hr align=left width="50%">
+<b>EQUAL?</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>EQUALP</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>=</b> <i>expr2</i>
+</p>
+
+<p>
+EQUAL? returns true if and only if the arguments are equal. If both arguments are numbers, EQUAL? returns numeric equality, otherwise, it returns string equality or list equality.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT EQUAL? "abra "abra</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT EQUAL? "abra "cadabra</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT EQUAL? 2.5 -2.5</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT EQUAL? 2 2.0</tt>
+<br>
+<tt><b>TRUE</b></tt>
+</blockquote>
+
+<a name="greaterp">
+<p>
+<hr align=left width="50%">
+<b>GREATER?</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>GREATERP</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>&gt;</b> <i>expr2</i>
+</p>
+
+<p>
+GREATER? returns true if and only if expr is numerically greater than expr2. If an argument is not a number, GREATER? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT GREATER? 2.5 -2.5</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT GREATER? 2 2.0</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="lessp">
+<p>
+<hr align=left width="50%">
+<b>LESS?</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>LESSP</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>&lt;</b> <i>expr2</i>
+</p>
+
+<p>
+LESS? returns true if and only if expr is numerically less than expr2. If an argument is not a number, LESS? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LESS? 2.5 -2.5</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT LESS? 2 2.0</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="greaterequalp">
+<p>
+<hr align=left width="50%">
+<b>GREATEREQUAL?</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>GREATEREQUALP</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>&gt;=</b> <i>expr2</i>
+</p>
+
+<p>
+GREATEREQUAL? returns true if and only if expr is numerically greater than or equal to expr2. If an argument is not a GREATEREQUAL, GREATER? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT GREATEREQUAL? 2.5 -2.5</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT GREATEREQUAL? 2 2.0</tt>
+<br>
+<tt><b>TRUE</b></tt>
+</blockquote>
+
+<a name="lessequalp">
+<p>
+<hr align=left width="50%">
+<b>LESSEQUAL?</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>LESSEQUALP</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>&lt;=</b> <i>expr2</i>
+</p>
+
+<p>
+LESSEQUAL? returns true if and only if expr is numerically less than or equal to expr2. If an argument is not a number, LESSEQUAL? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LESSEQUAL? 2.5 -2.5</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT LESSEQUAL? 2 2.0</tt>
+<br>
+<tt><b>TRUE</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_arithmetic">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Numeric operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Turtle Tracks includes a full set of arithmetic functions.
+</p>
+
+<a name="integer">
+<p>
+<hr align=left width="50%">
+<b>INTEGER</b> <i>expr</i>
+</p>
+
+<p>
+INTEGER returns the integer portion of the argument. If the argument is not a number, INTEGER throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT INTEGER 11.6</tt>
+<br>
+<tt><b>11</b></tt>
+<br>
+<tt><b>?</b> PRINT INTEGER -2.9</tt>
+<br>
+<tt><b>-2</b></tt>
+</blockquote>
+
+<a name="round">
+<p>
+<hr align=left width="50%">
+<b>ROUND</b> <i>expr</i>
+</p>
+
+<p>
+ROUND rounds the argument to the nearest integer. If the argument is not a number, ROUND throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ROUND 11.6</tt>
+<br>
+<tt><b>12</b></tt>
+<br>
+<tt><b>?</b> PRINT ROUND -2.9</tt>
+<br>
+<tt><b>-3</b></tt>
+</blockquote>
+
+<a name="abs">
+<p>
+<hr align=left width="50%">
+<b>ABS</b> <i>expr</i>
+</p>
+
+<p>
+ABS returns the absolute value of the argument. If the argument is not a number, ABS throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ABS 11.6</tt>
+<br>
+<tt><b>11.6</b></tt>
+<br>
+<tt><b>?</b> PRINT ABS -2.9</tt>
+<br>
+<tt><b>2.9</b></tt>
+</blockquote>
+
+<a name="minus">
+<p>
+<hr align=left width="50%">
+<b>MINUS</b> <i>expr</i>
+<br>
+<b>-</b> <i>expr</i>
+</p>
+
+<p>
+MINUS returns the negation of the argument. If the argument is not a number, MINUS throws an error. Note that there is a precedence difference between MINUS and -.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT MINUS 11.6</tt>
+<br>
+<tt><b>-11.6</b></tt>
+<br>
+<tt><b>?</b> PRINT MINUS -2.9</tt>
+<br>
+<tt><b>2.9</b></tt>
+<br>
+<tt><b>?</b> PRINT MINUS 3+4</tt>
+<br>
+<tt><b>-7</b></tt>
+<br>
+<tt><b>?</b> PRINT -3+4</tt>
+<br>
+<tt><b>1</b></tt>
+</blockquote>
+
+<a name="sum">
+<p>
+<hr align=left width="50%">
+<b>SUM</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>+</b> <i>expr2</i>
+</p>
+
+<p>
+SUM returns the sum of the arguments. If an argument is not a number, SUM throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT SUM 5 2</tt>
+<br>
+<tt><b>7</b></tt>
+<br>
+<tt><b>?</b> PRINT SUM 8.8 -2.2</tt>
+<br>
+<tt><b>6.6</b></tt>
+</blockquote>
+
+<a name="difference">
+<p>
+<hr align=left width="50%">
+<b>DIFFERENCE</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>-</b> <i>expr2</i>
+</p>
+
+<p>
+DIFFERENCE returns the difference of the arguments. If an argument is not a number, DIFFERENCE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT DIFFERENCE 5 2</tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<tt><b>?</b> PRINT DIFFERENCE 8.8 -2.2</tt>
+<br>
+<tt><b>11</b></tt>
+</blockquote>
+
+<a name="product">
+<p>
+<hr align=left width="50%">
+<b>PRODUCT</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>*</b> <i>expr2</i>
+</p>
+
+<p>
+PRODUCT returns the product of the arguments. If an argument is not a number, PRODUCT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT PRODUCT 5 2</tt>
+<br>
+<tt><b>10</b></tt>
+<br>
+<tt><b>?</b> PRINT PRODUCT 8.8 -2.2</tt>
+<br>
+<tt><b>-19.36</b></tt>
+</blockquote>
+
+<a name="quotient">
+<p>
+<hr align=left width="50%">
+<b>QUOTIENT</b> <i>expr1</i> <i>expr2</i>
+<br>
+<i>expr1</i> <b>/</b> <i>expr2</i>
+</p>
+
+<p>
+QUOTIENT divides expr1 by expr2 and returns the quotient. The quotient is a floating-point number if expr1 is not evenly divisible by expr2. If an argument is not a number, or if expr2 is 0, QUOTIENT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT QUOTIENT 5 2</tt>
+<br>
+<tt><b>2.5</b></tt>
+<br>
+<tt><b>?</b> PRINT QUOTIENT 8.8 -2.2</tt>
+<br>
+<tt><b>-4</b></tt>
+</blockquote>
+
+<a name="remainder">
+<p>
+<hr align=left width="50%">
+<b>REMAINDER</b> <i>expr1</i> <i>expr2</i>
+</p>
+
+<p>
+REMAINDER divides expr1 by expr2 using integer division. The remainder is returned. The quotient is ignored. If an argument is a non-integer value, it is first rounded to the nearest integer. If an argument is not a number, or if expr2 is 0, REMAINDER throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT REMAINDER 5 2</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>?</b> PRINT REMAINDER 8.8 -2.2</tt>
+<br>
+<tt><b>1</b></tt>
+</blockquote>
+
+<a name="sqrt">
+<p>
+<hr align=left width="50%">
+<b>SQRT</b> <i>expr</i>
+</p>
+
+<p>
+SQRT returns the square root of the argument. If the argument is not a number, or if it is a negative number, SQRT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT SQRT 2</tt>
+<br>
+<tt><b>1.4142135623730951</b></tt>
+</blockquote>
+
+<a name="power">
+<p>
+<hr align=left width="50%">
+<b>POWER</b> <i>expr1</i> <i>expr2</i>
+</p>
+
+<p>
+POWER returns expr1 raised to the power of expr2. If an argument is not a number, or both arguments are zero, or expr1 is negative and expr2 is not an integer, POWER throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT POWER -2 15</tt>
+<br>
+<tt><b>-32768</b></tt>
+<br>
+<tt><b>?</b> PRINT POWER 2 -0.5</tt>
+<br>
+<tt><b>0.7071067811865476</b></tt>
+</blockquote>
+
+<a name="exp">
+<p>
+<hr align=left width="50%">
+<b>EXP</b> <i>expr</i>
+</p>
+
+<p>
+EXP returns the constant <i>e</i> raised to the power of the argument. If the argument is not a number, EXP throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT EXP 1</tt>
+<br>
+<tt><b>2.718281828459045</b></tt>
+</blockquote>
+
+<a name="log">
+<p>
+<hr align=left width="50%">
+<b>LOG</b> <i>expr</i>
+</p>
+
+<p>
+LOG returns the natrual logarithm (log to the base <i>e</i>) of the argument. If the argument is not a number, or if it is a non-positive number, LOG throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LOG EXP 3</tt>
+<br>
+<tt><b>3</b></tt>
+</blockquote>
+
+<a name="random">
+<p>
+<hr align=left width="50%">
+<b>RANDOM</b> <i>integer</i>
+</p>
+
+<p>
+RANDOM returns a pseudo-random integer between 0 and the given argument minus 1, inclusive. If the argument is not a positive integer, RANDOM throws an error.
+</p>
+
+<a name="randomize">
+<p>
+<hr align=left width="50%">
+<b>RANDOMIZE</b>
+<br>
+<b>RERANDOM</b>
+<br>
+<b>(</b><b>RANDOMIZE</b> <i>integer</i><b>)</b>
+<br>
+<b>(</b><b>RERANDOM</b> <i>integer</i><b>)</b>
+</p>
+
+<p>
+RANDOMIZE sets the seed for sequence of pseudo-random numbers to be returned by subsequent calls to RANDOM. Every time Turtle Tracks is started up, the seed is set to 0; therefore, if you restart Turtle Tracks, the same sequence of numbers will be generated. Use RANDOMIZE to set a seed at "random" depending on the value of the system time stamp. The version of RANDOMIZE with an argument uses the argument as a seed. If the argument is not an integer, RANDOMIZE throws an error.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_trigonometric">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Trigonometric operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Turtle Tracks includes a full set of trigonometric functions.
+</p>
+
+<a name="sin">
+<p>
+<hr align=left width="50%">
+<b>SIN</b> <i>expr</i>
+</p>
+
+<p>
+SIN returns the sine of the argument (given in degrees). If the argument is not a number, SIN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT SIN 135</tt>
+<br>
+<tt><b>0.7071067811865481</b></tt>
+</blockquote>
+
+<a name="cos">
+<p>
+<hr align=left width="50%">
+<b>COS</b> <i>expr</i>
+</p>
+
+<p>
+COS returns the cosine of the argument (given in degrees). If the argument is not a number, COS throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT COS 135</tt>
+<br>
+<tt><b>-0.7071067811865481</b></tt>
+</blockquote>
+
+<a name="tan">
+<p>
+<hr align=left width="50%">
+<b>TAN</b> <i>expr</i>
+</p>
+
+<p>
+TAN returns the tangent of the argument (given in degrees). If the argument is not a number, or if the input value is too close to an odd multiple of 90, TAN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT TAN 135</tt>
+<br>
+<tt><b>-1</b></tt>
+</blockquote>
+
+<a name="radsin">
+<p>
+<hr align=left width="50%">
+<b>RADSIN</b> <i>expr</i>
+</p>
+
+<p>
+RADSIN returns the sine of the argument (given in radians). If the argument is not a number, RADSIN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT RADSIN 3</tt>
+<br>
+<tt><b>0.1411200080598671</b></tt>
+</blockquote>
+
+<a name="radcos">
+<p>
+<hr align=left width="50%">
+<b>RADCOS</b> <i>expr</i>
+</p>
+
+<p>
+RADCOS returns the cosine of the argument (given in radians). If the argument is not a number, RADCOS throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT RADCOS 3</tt>
+<br>
+<tt><b>-0.9899924966004455</b></tt>
+</blockquote>
+
+<a name="radtan">
+<p>
+<hr align=left width="50%">
+<b>RADTAN</b> <i>expr</i>
+</p>
+
+<p>
+RADTAN returns the tangent of the argument (given in radians). If the argument is not a number, or if the argument is too close to an odd multiple of pi/2, RADTAN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT RADTAN 3</tt>
+<br>
+<tt><b>-0.1425465430742777</b></tt>
+</blockquote>
+
+<a name="arcsin">
+<p>
+<hr align=left width="50%">
+<b>ARCSIN</b> <i>expr</i>
+</p>
+
+<p>
+ARCSIN returns the inverse sine of the argument, in degrees. The returned value will be between -90 and 90. If the argument is not a number, or if it is greater than 1.0 or less than -1.0, ARCSIN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ARCSIN 1</tt>
+<br>
+<tt><b>90</b></tt>
+</blockquote>
+
+<a name="arccos">
+<p>
+<hr align=left width="50%">
+<b>ARCCOS</b> <i>expr</i>
+</p>
+
+<p>
+ARCCOS returns the inverse cosine of the argument, in degrees. The returned value will be between 0 and 180. If the argument is not a number, or if it is greater than 1.0 or less than -1.0, ARCCOS throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ARCCOS 1</tt>
+<br>
+<tt><b>0</b></tt>
+</blockquote>
+
+<a name="arctan">
+<p>
+<hr align=left width="50%">
+<b>ARCTAN</b> <i>expr</i>
+</p>
+
+<p>
+ARCTAN returns the inverse tangent of the argument, in degrees. The returned value will be between -90 and 90. If the argument is not a number, ARCTAN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ARCTAN 100</tt>
+<br>
+<tt><b>89.4270613023166</b></tt>
+</blockquote>
+
+<a name="arctan2">
+<p>
+<hr align=left width="50%">
+<b>ARCTAN2</b> <i>expry</i> <i>exprx</i>
+</p>
+
+<p>
+ARCTAN2 returns the inverse tangent of expry/exprx, in degrees, by finding the angle formed by the points (x,y), the origin, and (1,0). The returned value will be between -180 and 180. ARCTAN2 0 0 is defined as 0. If any of the arguments is not a number, ARCTAN2 throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ARCTAN2 1 1</tt>
+<br>
+<tt><b>45</b></tt>
+<br>
+<tt><b>?</b> PRINT ARCTAN2 -1 -1</tt>
+<br>
+<tt><b>-135</b></tt>
+<br>
+<tt><b>?</b> PRINT ARCTAN2 1 0</tt>
+<br>
+<tt><b>90</b></tt>
+</blockquote>
+
+<a name="radarcsin">
+<p>
+<hr align=left width="50%">
+<b>RADARCSIN</b> <i>expr</i>
+</p>
+
+<p>
+RADARCSIN returns the inverse sine of the argument, in radians. The returned value will be between -pi/2 and pi/2. If the argument is not a number, or if it is greater than 1.0 or less than -1.0, RADARCSIN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT RADARCSIN 1</tt>
+<br>
+<tt><b>1.5707963267948966</b></tt>
+</blockquote>
+
+<a name="radarccos">
+<p>
+<hr align=left width="50%">
+<b>RADARCCOS</b> <i>expr</i>
+</p>
+
+<p>
+RADARCCOS returns the inverse cosine of the argument, in radians. The returned value will be between 0 and pi. If the argument is not a number, or if it is greater than 1.0 or less than -1.0, RADARCCOS throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT RADARCCOS 1</tt>
+<br>
+<tt><b>0.0</b></tt>
+</blockquote>
+
+<a name="radarctan">
+<p>
+<hr align=left width="50%">
+<b>RADARCTAN</b> <i>expr</i>
+</p>
+
+<p>
+RADARCTAN returns the inverse tangent of the argument, in radians. The returned value will be between -pi/2 and pi/2. If the argument is not a number, RADARCTAN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT RADARCTAN 100</tt>
+<br>
+<tt><b>1.5607966601082313</b></tt>
+</blockquote>
+
+<a name="radarctan2">
+<p>
+<hr align=left width="50%">
+<b>RADARCTAN2</b> <i>expry</i> <i>exprx</i>
+</p>
+
+<p>
+RADARCTAN2 returns the inverse tangent of expry/exprx, in radians, by finding the angle formed by the points (x,y), the origin, and (1,0). The returned value will be between -pi and pi. RADARCTAN2 0 0 is defined to be 0. If any of the arguments is not a number, RADARCTAN2 throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT RADARCTAN2 1 1</tt>
+<br>
+<tt><b>0.7853981633974483</b></tt>
+<br>
+<tt><b>?</b> PRINT RADARCTAN2 -1 -1</tt>
+<br>
+<tt><b>-2.356194490192345</b></tt>
+<br>
+<tt><b>?</b> PRINT RADARCTAN2 1 0</tt>
+<br>
+<tt><b>1.5707963267948966</b></tt>
+</blockquote>
+
+<a name="pi">
+<p>
+<hr align=left width="50%">
+<b>PI</b>
+</p>
+
+<p>
+PI returns an approximation of the value pi. In Turtle Tracks, this value is equal to 3.14159265358979323846.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 03 February 1999
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>

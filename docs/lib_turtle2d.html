@@ -1,0 +1,855 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>Turtle Graphics Commands</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<a href="#_window"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Window Management</a>
+<br>
+<a href="#_motion"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Turtle Motion</a>
+<br>
+<a href="#_position"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Turtle Position Queries</a>
+<br>
+<a href="#_state"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Turtle State</a>
+<br>
+<a href="#_palette"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Color Palette Operations</a>
+<p>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+
+<p>
+Turtle Tracks includes a full set of turtle graphics primitives, which are part of the primitive group <tt><i>virtuoso.logo.lib.TurtlePrimitives</i></tt>. These commands may not be available for some console types.
+</p>
+
+<a name="_window">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Window Management</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These commands manage the drawing window.
+</p>
+
+<a name="draw">
+<p>
+<hr align=left width="50%">
+<b>DRAW</b>
+<br>
+<b>(</b><b>DRAW</b> <i>xmax</i> <i>ymax</i><b>)</b>
+</p>
+
+<p>
+DRAW opens the drawing window for subsequent turtle graphics commands. If the drawing window is already open, DRAW clears and resets it. If xmax and ymax parameters are given to DRAW, they specify the size of the window, in that x-coordinates range from -xmax to xmax-1 and y-coordinates range from -ymax to ymax-1. Thus, the window opened will have a width of 2*xmax and a height of 2*ymax. If DRAW is called without parameters, xmax and ymax default to 160 and 120, respectively. If a graphics window cannot be opened, or if xmax or ymax are not integer values, DRAW throws an error.
+</p>
+
+<a name="nodraw">
+<p>
+<hr align=left width="50%">
+<b>NODRAW</b>
+</p>
+
+<p>
+NODRAW closes any open turtle graphics window. If no window is open, NODRAW has no effect.
+</p>
+
+<a name="xsize">
+<p>
+<hr align=left width="50%">
+<b>XSIZE</b>
+</p>
+
+<p>
+XSIZE returns the current xmax value for the graphics window. X-coordinates range from -XSIZE to XSIZE-1. Therefore, the width of the window is 2*XSIZE.
+</p>
+
+<a name="ysize">
+<p>
+<hr align=left width="50%">
+<b>YSIZE</b>
+</p>
+
+<p>
+YSIZE returns the current ymax value for the graphics window. Y-coordinates range from -YSIZE to YSIZE-1. Therefore, the height of the window is 2*YSIZE.
+</p>
+
+<a name="clean">
+<p>
+<hr align=left width="50%">
+<b>CLEAN</b>
+<br>
+<b>CS</b>
+</p>
+
+<p>
+CLEAN fills the entire graphics window with the current background color. The current turtle position and state are not affected.
+</p>
+
+<a name="clearscreen">
+<p>
+<hr align=left width="50%">
+<b>CLEARSCREEN</b>
+<br>
+<b>CS</b>
+</p>
+
+<p>
+CLEARSCREEN moves the turtle to the home position, and fills the entire graphics window with the current background color.
+</p>
+
+<a name="wrap">
+<p>
+<hr align=left width="50%">
+<b>WRAP</b>
+</p>
+
+<p>
+WRAP sets the current window border behavior to "wrap." If the turtle moves past an edge of the window, it will "wrap around", or reappear on the other side.
+</p>
+
+<a name="window">
+<p>
+<hr align=left width="50%">
+<b>WINDOW</b>
+</p>
+
+<p>
+WINDOW sets the current window border behavior to "window." If the turtle moves past an edge of the window, it will disappear until it is moved back into view.
+</p>
+
+<a name="fence">
+<p>
+<hr align=left width="50%">
+<b>FENCE</b>
+</p>
+
+<p>
+FENCE sets the current window border behavior to "fence." Any call that attempts to move the turtle past the edge of the window will throw an error. If the mode was "window" and the turtle is already past the edge of the window, FENCE will throw an error.
+</p>
+
+<a name="refreshinterval">
+<p>
+<hr align=left width="50%">
+<b>REFRESHINTERVAL</b> <i>value</i>
+</p>
+
+<p>
+REFRESHINTERVAL sets the refresh interval in milliseconds. That is, if set to 1000, REFRESHINTERVAL will cause the turtle screen to refresh at most once per second during drawing operations. Setting an interval of 0 causes all drawing to happen immediately. If a negative interval is specified, no drawing will happen automatically, and the REFRESH command should be used to cause the screen to update. The window will, however, always update in response to window manager events, regardless of the setting of REFRESHINTERVAL. If the argument is not an integer, REFRESHINTERVAL throws an error.
+</p>
+
+
+<a name="refresh">
+<p>
+<hr align=left width="50%">
+<b>REFRESH</b>
+</p>
+
+<p>
+REFRESH forces an update of the turtle graphics window. This is typically used in conjunction with a negative REFRESHINTERVAL value, to cause the image to be redisplayed at specific times during the drawing process.
+</p>
+
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_motion">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Turtle Motion</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These commands can be used to move the turtle.
+</p>
+
+<a name="forward">
+<p>
+<hr align=left width="50%">
+<b>FORWARD</b> <i>number</i>
+<br>
+<b>FD</b> <i>number</i>
+</p>
+
+<p>
+FORWARD moves the turtle forward the given number of pixels in the current heading direction. If the pen is currently down, the turtle will draw a line along its path. If the given input is not a number, FORWARD will throw an error.
+</p>
+
+<a name="back">
+<p>
+<hr align=left width="50%">
+<b>BACK</b> <i>number</i>
+<br>
+<b>BK</b> <i>number</i>
+</p>
+
+<p>
+BACK moves the turtle the given number of pixels in the direction opposite from the current heading direction. The heading of the turtle is not changed. If the pen is currently down, the turtle will draw a line along its path. If the given input is not a number, BACK will throw an error.
+</p>
+
+<a name="right">
+<p>
+<hr align=left width="50%">
+<b>RIGHT</b> <i>number</i>
+<br>
+<b>RT</b> <i>number</i>
+</p>
+
+<p>
+RIGHT changes the turtle's heading by the specified number of degrees to clockwise. The turtle's position is not changed. If the given input is not a number, RIGHT will throw an error.
+</p>
+
+<a name="left">
+<p>
+<hr align=left width="50%">
+<b>LEFT</b> <i>number</i>
+<br>
+<b>LT</b> <i>number</i>
+</p>
+
+<p>
+LEFT changes the turtle's heading by the specified number of degrees to clockwise. The turtle's position is not changed. If the given input is not a number, LEFT will throw an error.
+</p>
+
+<a name="setx">
+<p>
+<hr align=left width="50%">
+<b>SETX</b> <i>number</i>
+</p>
+
+<p>
+SETX moves the turtle such that its y-position remains the same but its x-position is the given value. The heading of the turtle is not changed. If the pen is currently down, the turtle will draw a line along its path. If the given input is not a number, SETX will throw an error.
+</p>
+
+<a name="sety">
+<p>
+<hr align=left width="50%">
+<b>SETY</b> <i>number</i>
+</p>
+
+<p>
+SETY moves the turtle such that its x-position remains the same but its y-position is the given value. The heading of the turtle is not changed. If the pen is currently down, the turtle will draw a line along its path. If the given input is not a number, SETY will throw an error.
+</p>
+
+<a name="setxy">
+<p>
+<hr align=left width="50%">
+<b>SETXY</b> <i>xcor</i> <i>ycor</i>
+</p>
+
+<p>
+SETXY moves the turtle such that its x-position and y-position become the given values. The heading of the turtle is not changed. If the pen is currently down, the turtle will draw a line along its path. If the given inputs are not numbers, SETXY will throw an error.
+</p>
+
+<a name="setpos">
+<p>
+<hr align=left width="50%">
+<b>SETPOS</b> <i>poslist</i>
+</p>
+
+<p>
+SETPOS moves the turtle to the coordinates specified by the input position list. The input must be a two-element list, the first element being the x-coordinate and the second being the y-coordinate. The heading of the turtle is not changed. If the pen is currently down, the turtle will draw a line along its path. If the given input is not a list or does not contain exactly two numeric elements, SETPOS will throw an error.
+</p>
+
+<a name="setheading">
+<p>
+<hr align=left width="50%">
+<b>SETHEADING</b> <i>number</i>
+</p>
+
+<p>
+SETHEADING sets the heading of the turtle to the given value, in degrees. A heading of 0 points straight up, and positive values run clockwise. The position of the turtle is not changed. If the given input is not a number, SETHEADING will throw an error.
+</p>
+
+<a name="home">
+<p>
+<hr align=left width="50%">
+<b>HOME</b>
+</p>
+
+<p>
+HOME moves the turtle to the origin. It has the same effect as SETXY 0 0. The heading of the turtle is not changed. If the pen is currently down, the turtle will draw a line along its path.
+</p>
+
+<a name="label">
+<p>
+<hr align=left width="50%">
+<b>LABEL</b> <i>expr</i>
+</p>
+
+<p>
+LABEL draws the specified expression on the screen as text, starting from the current turtle position, in the same form as it would appear if it were PRINTed.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_position">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Turtle Position Queries</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These commands can be used to get information about the turtle's position and heading.
+</p>
+
+<a name="xcor">
+<p>
+<hr align=left width="50%">
+<b>XCOR</b>
+</p>
+
+<p>
+XCOR returns the current x-coordinate of the turtle.
+</p>
+
+<a name="ycor">
+<p>
+<hr align=left width="50%">
+<b>YCOR</b>
+</p>
+
+<p>
+YCOR returns the current x-coordinate of the turtle.
+</p>
+
+<a name="pos">
+<p>
+<hr align=left width="50%">
+<b>POS</b>
+</p>
+
+<p>
+POS returns the current position of the turtle in the form of a two-element list, where the first element is the x-coordinate and the second element is the y-coordinate.
+</p>
+
+<a name="heading">
+<p>
+<hr align=left width="50%">
+<b>HEADING</b>
+</p>
+
+<p>
+HEADING returns the current heading of the turtle, in degrees. A heading of 0 points straight up, and positive values run clockwise.
+</p>
+
+<a name="distancetoxy">
+<p>
+<hr align=left width="50%">
+<b>DISTANCETOXY</b> <i>xcor</i> <i>ycor</i>
+</p>
+
+<p>
+DISTANCETOXY returns the distance from the current turtle position to the given coordinates. The position and heading of the turtle are not changed. If the given inputs are not numbers, DISTANCETOXY will throw an error.
+</p>
+
+<a name="distanceto">
+<p>
+<hr align=left width="50%">
+<b>DISTANCETO</b> <i>poslist</i>
+</p>
+
+<p>
+DISTANCETO returns the distance from the current turtle position to the given coordinates. The input must be a two-element list, the first element being the x-coordinate and the second being the y-coordinate. The position and heading of the turtle are not changed. If the given input is not a list or does not contain exactly two numeric elements, DISTANCETO will throw an error.
+</p>
+
+<a name="towardsxy">
+<p>
+<hr align=left width="50%">
+<b>TOWARDSXY</b> <i>xcor</i> <i>ycor</i>
+</p>
+
+<p>
+TOWARDSXY returns the heading pointing from the turtle position to the given coordinates, in degrees. A heading of 0 points straight up, and positive values run clockwise. The position and heading of the turtle are not changed. If the given inputs are not numbers, TOWARDSXY will throw an error.
+</p>
+
+<a name="towards">
+<p>
+<hr align=left width="50%">
+<b>TOWARDS</b> <i>poslist</i>
+</p>
+
+<p>
+TOWARDS returns the heading pointing from the turtle position to the given coordinates, in degrees. The input must be a two-element list, the first element being the x-coordinate and the second being the y-coordinate. A heading of 0 points straight up, and positive values run clockwise. The position and heading of the turtle are not changed. If the given input is not a list or does not contain exactly two numeric elements, TOWARDS will throw an error.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_state">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Turtle State</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These commands manipulate other state information.
+</p>
+
+<a name="showturtle">
+<p>
+<hr align=left width="50%">
+<b>SHOWTURTLE</b>
+<br>
+<b>ST</b>
+</p>
+
+<p>
+SHOWTURTLE shows the turtle if it is currently hidden. If the turtle is already shown, SHOWTURTLE has no effect.
+</p>
+
+<a name="hideturtle">
+<p>
+<hr align=left width="50%">
+<b>HIDETURTLE</b>
+<br>
+<b>HT</b>
+</p>
+
+<p>
+HIDETURTLE hides the turtle if it is currently shown. If the turtle is already hidden, HIDETURTLE has no effect.
+</p>
+
+<a name="pendown">
+<p>
+<hr align=left width="50%">
+<b>PENDOWN</b>
+<br>
+<b>PD</b>
+</p>
+
+<p>
+PENDOWN activates the drawing pen. Any subsequent move commands will cause the turtle to draw lines in the current pen color.
+</p>
+
+<a name="penup">
+<p>
+<hr align=left width="50%">
+<b>PENUP</b>
+<br>
+<b>PU</b>
+</p>
+
+<p>
+PENUP deactivates the drawing pen. The turtle will not perform any drawing during subsequent move commands.
+</p>
+
+<a name="penerase">
+<p>
+<hr align=left width="50%">
+<b>PENERASE</b>
+<br>
+<b>PE</b>
+</p>
+
+<p>
+PENERASE sets the drawing pen to erase. Any subsequent move commands will cause the turtle to draw lines in the current background color.
+</p>
+
+<a name="setpencolor">
+<p>
+<hr align=left width="50%">
+<b>SETPENCOLOR</b> <i>color</i>
+<br>
+<b>SETPC</b> <i>color</i>
+</p>
+
+<p>
+SETPENCOLOR sets the color of the drawing pen. The color may be in the format of a three-element list in which the elements are the RGB values, each between 0 and 255. It may also be a word specifying a color from the palette. If the input is a list with more or less than three elements or elements that are not integers between 0 and 255, or if the input is a word that does not correspond to an entry in the color palette, SETPENCOLOR throws an error.
+</p>
+
+<a name="setbackground">
+<p>
+<hr align=left width="50%">
+<b>SETBACKGROUND</b> <i>color</i>
+<br>
+<b>SETBG</b> <i>color</i>
+</p>
+
+<p>
+SETBACKGROUND sets the color of the background, also the color of the eraser. The color may be in the format of a three-element list in which the elements are the RGB values, each between 0 and 255. It may also be a word specifying a color from the palette. If the input is a list with more or less than three elements or elements that are not integers between 0 and 255, or if the input is a word that does not correspond to an entry in the color palette, SETBACKGROUND throws an error.
+</p>
+
+<a name="getpencolor">
+<p>
+<hr align=left width="50%">
+<b>GETPENCOLOR</b>
+<br>
+<b>GETPC</b>
+</p>
+
+<p>
+GETPENCOLOR returns the color of the pen, in the form of a three-element list representing the RGB color. Each value in the list will be an integer between 0 and 255.
+</p>
+
+<a name="getbackground">
+<p>
+<hr align=left width="50%">
+<b>GETBACKGROUND</b>
+<br>
+<b>GETBG</b>
+</p>
+
+<p>
+GETBACKGROUND returns the color of the background, also the color of the eraser, in the form of a three-element list representing the RGB color. Each value in the list will be an integer between 0 and 255.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_palette">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Color Palette Operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These commands manipulate the color palette, which are values that can be used in SETPENCOLOR and SETBACKGROUND. The default color palette consists of standard system color numbers, and a selection of color names. Colors may be added to or removed from the palette. The default palette, set up when Turtle Tracks starts, is as follows:
+</p>
+
+<p>
+<table align=left bgcolor="#ccffcc" border=5 cellpadding=2 cellspacing=3>
+	<caption align=bottom>
+	<b>System color numbers</b>
+	</caption>
+	<tr>
+		<th nowrap>
+			Color number
+		</th>
+		<th nowrap>
+			Color
+		</th>
+		<th nowrap>
+			RGB Value
+		</th>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>0</tt>
+		</td>
+		<td nowrap>
+			black
+		</td>
+		<td nowrap>
+			[ 0 0 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>1</tt>
+		</td>
+		<td nowrap>
+			blue
+		</td>
+		<td nowrap>
+			[ 0 0 255 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>2</tt>
+		</td>
+		<td nowrap>
+			green
+		</td>
+		<td nowrap>
+			[ 0 255 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>3</tt>
+		</td>
+		<td nowrap>
+			cyan
+		</td>
+		<td nowrap>
+			[ 0 255 255 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>4</tt>
+		</td>
+		<td nowrap>
+			red
+		</td>
+		<td nowrap>
+			[ 255 0 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>5</tt>
+		</td>
+		<td nowrap>
+			magenta
+		</td>
+		<td nowrap>
+			[ 255 0 255 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>6</tt>
+		</td>
+		<td nowrap>
+			yellow
+		</td>
+		<td nowrap>
+			[ 255 255 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>7</tt>
+		</td>
+		<td nowrap>
+			white
+		</td>
+		<td nowrap>
+			[ 255 255 255 ]
+		</td>
+	</tr>
+</table>
+
+<table bgcolor="#ccffcc" border=5 cellpadding=2 cellspacing=3>
+	<caption align=bottom>
+	<b>Turtle Tracks color names</b>
+	</caption>
+	<tr>
+		<th nowrap>
+			Color name
+		</th>
+		<th nowrap>
+			RGB Value
+		</th>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"BLACK</tt>
+		</td>
+		<td nowrap>
+			[ 0 0 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"BLUE</tt>
+		</td>
+		<td nowrap>
+			[ 0 0 255 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"CYAN</tt>
+		</td>
+		<td nowrap>
+			[ 0 255 255 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"DARKGRAY</tt>
+		</td>
+		<td nowrap>
+			[ 64 64 64 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"GRAY</tt>
+		</td>
+		<td nowrap>
+			[ 128 128 128 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"GREEN</tt>
+		</td>
+		<td nowrap>
+			[ 0 255 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"LIGHTGRAY</tt>
+		</td>
+		<td nowrap>
+			[ 192 192 192 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"MAGENTA</tt>
+		</td>
+		<td nowrap>
+			[ 255 0 255 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"ORANGE</tt>
+		</td>
+		<td nowrap>
+			[ 255 200 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"PINK</tt>
+		</td>
+		<td nowrap>
+			[ 255 175 175 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"RED</tt>
+		</td>
+		<td nowrap>
+			[ 255 0 0 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"WHITE</tt>
+		</td>
+		<td nowrap>
+			[ 255 255 255 ]
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>"YELLOW</tt>
+		</td>
+		<td nowrap>
+			[ 255 255 0 ]
+		</td>
+	</tr>
+</table>
+</p>
+
+<a name="setpalette">
+<p>
+<hr align=left width="50%">
+<b>SETPALETTE</b> <i>name</i> <i>rgblist</i>
+</p>
+
+<p>
+SETPALETTE associates the given color name with the given rgblist. It will then be possible to use the name to specify pen color or background color. If the first argument is not a word, or the second argument is not a list with three integer elements between 0 and 255, SETPALETTE throws an error.
+</p>
+
+<a name="unsetpalette">
+<p>
+<hr align=left width="50%">
+<b>UNSETPALETTE</b> <i>name</i>
+</p>
+
+<p>
+UNSETPALETTE disassociates the given color name, removing it from the palette. If no color with the given name exists, UNSETPALETTE does nothing. If the argument is not a word, UNSETPALETTE throws an error.
+</p>
+
+<a name="resetpalette">
+<p>
+<hr align=left width="50%">
+<b>RESETPALETTE</b>
+</p>
+
+<p>
+RESETPALETTE sets the color palette to its default.
+</p>
+
+<a name="palette">
+<p>
+<hr align=left width="50%">
+<b>PALETTE</b> <i>name</i>
+</p>
+
+<p>
+PALETTE returns the rgblist associated with the given color name. If the specified color name is not found in the color palette, PALETTE returns the empty list. If the argument is not a word, PALETTE throws an error.
+</p>
+
+<a name="palettep">
+<p>
+<hr align=left width="50%">
+<b>PALETTE?</b> <i>name</i>
+<br>
+<b>PALETTEP</b> <i>name</i>
+</p>
+
+<p>
+PALETTE? returns "TRUE if the given name is in the color palette, or "FALSE if not. If the argument is not a word, PALETTE? throws an error.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 3 October 1999
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>

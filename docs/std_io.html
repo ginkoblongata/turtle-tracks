@@ -1,0 +1,609 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<a name="top">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>Input/output</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<a href="#_readerwriter"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Reading and writing</a>
+<br>
+<a href="#_open"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Opening streams</a>
+<br>
+<a href="#_stream"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Stream management</a>
+<br>
+<a href="#_filesys"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">File system management</a>
+<p>
+<b><i>Prev:</i> <a href="std_flow.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Flow Control</a></b>
+<br>
+<b><i>Next:</i> <a href="std_math.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Mathematical Operations</a></b>
+<br>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+<p>
+Unless otherwise indicated, all these primitives are in <tt><i>virtuoso.logo.lib.StandardPrimitives</i></tt>.
+</p>
+
+<a name="_readerwriter">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Reading and writing</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Readers and writers are commands that interact with the current read and write streams. These streams typically connect with the Logo console, but may be directed to files, network sockets, or URLs.
+</p>
+
+<a name="print">
+<p>
+<hr align=left width="50%">
+<b>PRINT</b> <i>expr</i>
+<br>
+<b>PR</b> <i>expr</i>
+<br>
+<b>(</b><b>PRINT</b> <i>expr1</i> ...<b>)</b>
+<br>
+<b>(</b><b>PR</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+PRINT sends a string representation of the argument to the current writer, followed by an end-of-line. If the argument is a list, the outermost enclosing brackets are not output. If more than one argument is given, PRINT prints them on the same line, separated by spaces. If the current writer is the console, PRINT displays the argument on the console. PRINT also flushes the output buffer. If the current writer cannot be written to, PRINT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT "hello PRINT [hello world]</tt>
+<br>
+<tt><b>hello</b></tt>
+<br>
+<tt><b>hello world</b></tt>
+<br>
+<tt><b>?</b> (PRINT "hello [hello world])</tt>
+<br>
+<tt><b>hello hello world</b></tt>
+</blockquote>
+
+<a name="print1">
+<p>
+<hr align=left width="50%">
+<b>PRINT1</b> <i>expr</i>
+<br>
+<b>TYPE</b> <i>expr</i>
+<br>
+<b>(</b><b>PRINT1</b> <i>expr1</i> ...<b>)</b>
+<br>
+<b>(</b><b>TYPE</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+PRINT1 sends a string representation of the argument to the current writer, but does NOT follow it with an end-of-line. If the argument is a list, the outermost enclosing brackets are not output. If more than one argument is given, PRINT1 prints them on the same line, without any separator. If the current writer is the console, PRINT1 displays the argument on the console. PRINT1 flushes the output buffer if the current writer is the console, but does not flush the output buffer if the current writer is a file or network socket. If the current writer cannot be written to, PRINT1 throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT1 "hello PRINT1 [hello world]</tt>
+<br>
+<tt><b>hellohello world</b></tt>
+<br>
+<tt><b>?</b> (PRINT1 "hello [hello world])</tt>
+<br>
+<tt><b>hellohello world</b></tt>
+</blockquote>
+
+<a name="show">
+<p>
+<hr align=left width="50%">
+<b>SHOW</b> <i>expr</i>
+<br>
+<b>(</b><b>SHOW</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+SHOW sends a string representation of the argument to the current writer, followed by an end-of-line. If the argument is a list, SHOW, unlike PRINT, does output its outermost enclosing brackets. If more than one argument is given, SHOW prints them on the same line, separated by spaces. If the current writer is the console, SHOW displays the argument on the console. SHOW also flushes the output buffer. If the current writer cannot be written to, SHOW throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> SHOW "hello SHOW [hello world]</tt>
+<br>
+<tt><b>hello</b></tt>
+<br>
+<tt><b>[ hello world ]</b></tt>
+<br>
+<tt><b>?</b> (SHOW "hello [hello world])</tt>
+<br>
+<tt><b>hello [ hello world ]</b></tt>
+</blockquote>
+
+<a name="show1">
+<p>
+<hr align=left width="50%">
+<b>SHOW1</b> <i>expr</i>
+<br>
+<b>(</b><b>SHOW</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+SHOW1 sends a string representation of the argument to the current writer, but does NOT follow it with an end-of-line. If the argument is a list, SHOW1, unlike PRINT1, does output its outermost enclosing brackets. If more than one argument is given, SHOW1 prints them on the same line, without any separator. If the current writer is the console, SHOW1 displays the argument on the console. SHOW1 flushes the output buffer if the current writer is the console, but does not flush the output buffer if the current writer is a file or network socket. If the current writer cannot be written to, SHOW1 throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> SHOW1 "hello SHOW1 [hello world]</tt>
+<br>
+<tt><b>hello[ hello world ]</b></tt>
+<br>
+<tt><b>?</b> (SHOW1 "hello [hello world])</tt>
+<br>
+<tt><b>hello[ hello world ]</b></tt>
+</blockquote>
+
+<a name="readlist">
+<p>
+<hr align=left width="50%">
+<b>READLIST</b>
+<br>
+<b>RL</b>
+</p>
+
+<p>
+READLIST reads from the current reader until it encounters an end-of-line, and returns a list containing the line parsed as a list. If the current reader is the console, READLIST blocks until the user has typed a line and pressed the Enter key. If READLIST cannot read from the current reader, or the line cannot be parsed as a list, READLIST throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> SHOW READLIST</tt>
+<br>
+<tt>Hello, world!</tt>
+<br>
+<tt><b><b>[ Hello, world! ]</b></b></tt>
+</blockquote>
+
+<a name="readword">
+<p>
+<hr align=left width="50%">
+<b>READWORD</b>
+<br>
+<b>RW</b>
+</p>
+
+<p>
+READWORD reads from the current reader until it encounters an end-of-line, and returns a word containing the line, not including the end-of-line character. The line is not parsed. If the current reader is the console, READWORD blocks until the user has typed a line and pressed the Enter key. If READWORD cannot read from the current reader, READWORD throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT READWORD</tt>
+<br>
+<tt>Hello, world! [[[</tt>
+<br>
+<tt><b>Hello, world! [[[</b></tt>
+<br>
+<tt><b>?</b> PRINT LAST READWORD</tt>
+<br>
+<tt>This is one word</tt>
+<br>
+<tt><b>d</b></tt>
+</blockquote>
+
+<a name="readcharacter">
+<p>
+<hr align=left width="50%">
+<b>READCHARACTER</b>
+<br>
+<b>RC</b>
+</p>
+
+<p>
+READCHARACTER reads one byte from the current reader, and returns a word consisting of that byte. If the current reader is the console, READCHARACTER's exact behavior is not defined. Under some consoles, it may not return until the user has typed an entire line and pressed the Enter key. If READCHARACTER cannot read from the current reader, READCHARACTER throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT READCHARACTER</tt>
+<br>
+<tt>Hello, world!</tt>
+<br>
+<tt><b>H</b></tt>
+<br>
+<i>Note: the behavior shown above may not apply to some consoles.</i>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_open">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Opening streams</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Turtle Tracks supports stream-based reading from and writing to files in the local file system and network sockets.
+</p>
+
+<a name="openread">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>OPENREAD</b> <i>filename</i>
+<br>
+<b>(</b><b>OPENREAD</b> <i>filename</i> <i>streamid</i><b>)</b>
+</p>
+
+<p>
+OPENREAD opens the specified file name for reading only. A stream created using OPENREAD cannot be made the current writer. The file position is initially set at the beginning of the file. The one-input version of OPENREAD returns a unique streamid for the file. The two-input version of OPENREAD returns nothing. If the filename or the streamid is not a word, the specified file does not exist, the file cannot be read, or if local files cannot be opened for security reasons, OPENREAD will throw an error.
+</p>
+
+<a name="openwrite">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>OPENWRITE</b> <i>filename</i>
+<br>
+<b>(</b><b>OPENWRITE</b> <i>filename</i> <i>streamid</i><b>)</b>
+</p>
+
+<p>
+OPENWRITE opens the specified file name for writing only. A stream created using OPENWRITE cannot be made the current reader. If the file already exists, it will first be truncated. The one-input version of OPENWRITE returns a unique streamid for the file. The two-input version of OPENWRITE returns nothing. If the filename or the streamid is not a word, the file exists and cannot be overwritten, or if local files cannot be opened for security reasons, OPENWRITE will throw an error.
+</p>
+
+<a name="openrandom">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>OPENRANDOM</b> <i>filename</i>
+<br>
+<b>(</b><b>OPENRANDOM</b> <i>filename</i> <i>streamid</i><b>)</b>
+</p>
+
+<p>
+OPENRANDOM opens the specified file name for random-access reading and writing. The one-input version of OPENRANDOM returns a unique streamid for the file. The two-input version of OPENRANDOM returns nothing. If the filename or the streamid is not a word, the file exists and cannot be written to, or if local files cannot be opened for security reasons, OPENRANDOM will throw an error.
+</p>
+
+<a name="openurl">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.NetworkPrimitives</i></tt></td></tr>
+</table>
+<b>OPENURL</b> <i>url</i>
+<br>
+<b>(</b><b>OPENURL</b> <i>url</i> <i>streamid</i><b>)</b>
+</p>
+
+<p>
+OPENURL opens the specified universal resource locator (url) for reading only. A stream created using OPENURL cannot be made the current writer. The one-input version of OPENURL returns a unique streamid for the file. The two-input version of OPENURL returns nothing. If the url or the streamid is not a word or the specified url cannot be reached over the network, OPENURL will throw an error.
+</p>
+
+<a name="opensocket">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.NetworkPrimitives</i></tt></td></tr>
+</table>
+<b>OPENSOCKET</b> <i>hostname</i> <i>port</i>
+<br>
+<b>(</b><b>OPENSOCKET</b> <i>hostname</i> <i>port</i> <i>streamid</i><b>)</b>
+</p>
+
+<p>
+OPENSOCKET opens a socket to the specified hostname and port for reading and writing. A server must be running on the specified host and port. A stream created using OPENSOCKET can be made a reader, a writer, or both. The two-input version of OPENSOCKET returns a unique streamid for the file. The three-input version of OPENSOCKET returns nothing. If the hostname or the streamid is not a word, the port is not an integer, the specified host and port cannot be reached over the network, or no server is running on the specified host and port, OPENSOCKET will throw an error.
+</p>
+
+<a name="serversocket">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.NetworkPrimitives</i></tt></td></tr>
+</table>
+<b>SERVERSOCKET</b> <i>port</i> <i>connectfunc</i> <i>idleinterval</i> <i>idlefunc</i>
+</p>
+
+<p>
+SERVERSOCKET runs a server on the specified port of the local host. It listens continuously for connection requests. When a connection is made, a stream is created for that connection, and the connectfunc is executed, with the name of the stream as the single argument. Once the function has completed executing, SERVERSOCKET resumes listening. The idlefunc argument is called periodically while SERVERSOCKET is running. idleinterval gives the time in milliseconds between calls to idlefunc. An idleinterval of 0 disables invocation of the idlefunc. idlefunc takes no arguments and should return a boolean value specifying whether to continue running. If idlefunc returns true, SERVERSOCKET continues listening; otherwise it halts. Typically, the connectfunc function should spawn a thread to handle the new connection. Each of the two function arguments may be a lambda list, a procedure name or a primitive name. If the specified port or the specified idleinterval are not integers, the specifed functions are not well-formed or do not specify a defined procedure or primitive, or an error occurs while reparsing either lambda for execution, then SERVERSOCKET returns an error. If an error is thrown out of either function during its execution, then SERVERSOCKET exits and throws that error.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_stream">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Stream Management</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Several commands are also provided for general stream management, and to manage the current reader and writer.
+</p>
+
+<a name="setread">
+<p>
+<hr align=left width="50%">
+<b>SETREAD</b> <i>streamid</i>
+</p>
+
+<p>
+SETREAD makes the specified stream the current reader. If the empty list is specified as the streamid, SETREAD sets the Logo console to be the current reader. You can also use the console's streamid, which is ".CONSOLE". SETREAD does not return a value. If the given streamid is not a word or the empty list, or if it doesn't specify a valid stream, SETREAD throws an error.
+</p>
+
+<a name="setwrite">
+<p>
+<hr align=left width="50%">
+<b>SETWRITE</b> <i>streamid</i>
+</p>
+
+<p>
+SETWRITE makes the specified stream the current writer. If the empty list is specified as the streamid, SETWRITE sets the Logo console to be the current writer. You can also use the console's streamid, which is ".CONSOLE". SETWRITE does not return a value. If the given streamid is not a word or the empty list, or if it doesn't specify a valid stream, SETWRITE throws an error.
+</p>
+
+<a name="reader">
+<p>
+<hr align=left width="50%">
+<b>READER</b>
+</p>
+
+<p>
+READER returns the streamid of the current reader. If the current reader is the console, READER returns the streamid of the console, which is ".CONSOLE".
+</p>
+
+<a name="writer">
+<p>
+<hr align=left width="50%">
+<b>WRITER</b>
+</p>
+
+<p>
+WRITER returns the streamid of the current writer. If the current writer is the console, WRITER returns the streamid of the console, which is ".CONSOLE".
+</p>
+
+<a name="close">
+<p>
+<hr align=left width="50%">
+<b>CLOSE</b> <i>streamid</i>
+</p>
+
+<p>
+CLOSE closes the specified stream. Any further attempts to access a closed stream will result in an error. CLOSE does not return a value. If the given streamid is not a word, if it specifies the console, or if it doesn't specify a valid stream, CLOSE throws an error.
+</p>
+
+<a name="closeall">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>CLOSEALL</b>
+</p>
+
+<p>
+CLOSEALL closes all open streams except for the console.
+</p>
+
+<a name="streamname">
+<p>
+<hr align=left width="50%">
+<b>STREAMNAME</b> <i>streamid</i>
+</p>
+
+<p>
+STREAMNAME returns the filename associated with the specified stream. If the stream is a file, STREAMNAME returns its name. If the stream is a URL, STREAMNAME returns the URL. If the stream is a socket, STREAMNAME returns a three-element list consisting of the local port, the remote host, and the remote port. If the streamid is the console, STREAMNAME returns the class name of the console. If the argument is not a word, or does not specify an open stream, then STREAMNAME throws an error.
+</p>
+
+<a name="streamkind">
+<p>
+<hr align=left width="50%">
+<b>STREAMKIND</b> <i>streamid</i>
+</p>
+
+<p>
+STREAMKIND returns the type of the specified stream, which is one of the following values: "READFILE, "WRITEFILE, "SOCKET, "URL, "CONSOLE, "CLOSED, or "UNKNOWN. If the given streamid does not specify a valid stream, STREAMKIND will return "CLOSED. If the given streamid is not a word, STREAMKIND throws an error.
+</p>
+
+<a name="streamrandomp">
+<p>
+<hr align=left width="50%">
+<b>STREAMRANDOM?</b> <i>streamid</i>
+<br>
+<b>STREAMRANDOMP</b> <i>streamid</i>
+</p>
+
+<p>
+STREAMISRANDOM returns a boolean value denoting whether the specified stream is random-access (that is, whether it supports STREAMPOS, SETSTREAMPOS and STREAMLENGTH). If the given streamid does not specify a valid stream or the stream is closed, STREAMISRANDOM throws an error.
+</p>
+
+<a name="streampos">
+<p>
+<hr align=left width="50%">
+<b>STREAMPOS</b> <i>streamid</i>
+</p>
+
+<p>
+STREAMPOS returns the current position of the read/write head in the specified stream. If the given streamid does not specify a valid stream, the stream is closed, or the stream does not support random-access operations, STREAMPOS throws an error.
+</p>
+
+<a name="setstreampos">
+<p>
+<hr align=left width="50%">
+<b>SETSTREAMPOS</b> <i>streamid</i> <i>pos</i>
+</p>
+
+<p>
+SETSTREAMPOS sets the current position of the read/write head in the specified stream to the specified value. If the given streamid does not specify a valid stream, the stream is closed, the stream does not support random-access operations, or the second argument is not a positive integer, STREAMPOS throws an error.
+</p>
+
+<a name="streamlength">
+<p>
+<hr align=left width="50%">
+<b>STREAMLENGTH</b> <i>streamid</i>
+</p>
+
+<p>
+STREAMLENGTH returns the length of the specified stream. If the given streamid does not specify a valid stream, the stream is closed, or the stream does not support random-access operations, STREAMLENGTH throws an error.
+</p>
+
+<a name="eofp">
+<p>
+<hr align=left width="50%">
+<b>EOF?</b> <i>streamid</i>
+<br>
+<b>EOFP</b> <i>streamid</i>
+</p>
+
+<p>
+EOF? returns whether the end-of-stream has been reached. If the given streamid specifies the console, EOF? will always return "FALSE. If the given streamid is not a word, or it does not specify a valid stream, EOF? throws an error.
+</p>
+
+<a name="keyp">
+<p>
+<hr align=left width="50%">
+<b>KEY?</b> <i>streamid</i>
+<br>
+<b>KEYP</b> <i>streamid</i>
+</p>
+
+<p>
+KEY? returns whether a character is available on the stream and can be read without blocking. If the given streamid is not a word, or it does not specify a valid stream, KEY? throws an error.
+</p>
+
+<a name="allopen">
+<p>
+<hr align=left width="50%">
+<b>ALLOPEN</b>
+</p>
+
+<p>
+ALLOPEN returns a list whose members are the streamids of all open streams. The console is not included.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_filesys">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>File system management</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Turtle Tracks supports a few basic primitives for navigating directories within the file system. For more sophisticated file system access, use the extra plug-in virtuoso.logo.lib.ExtFilePrimitives.
+</p>
+
+<a name="pwd">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>PWD</b>
+</p>
+
+<p>
+PWD returns a word containing the path name of the current working directory.
+</p>
+
+<a name="cwd">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>CWD</b> <i>path</i>
+</p>
+
+<p>
+CWD changes the current working directory to the specified path, which may be an absolute path or a path relative to the current directory. If the path does not specify a valid directory, CWD throws an error.
+</p>
+
+<a name="cwdup">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>CWDUP</b>
+</p>
+
+<p>
+CWDUP changes the current working directory to the parent of the current directory. If the current working directory is the root of the file system, CWDUP throws an error. On unix systems, CWDUP is functionally identical to CWD "..
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 03 February 1999
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>

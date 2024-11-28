@@ -1,0 +1,1142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<a name="top">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>Workspace Management</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<a href="#_general"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">General workspace control</a>
+<br>
+<a href="#_procedure"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Procedure operations</a>
+<br>
+<a href="#_variable"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Variable operations</a>
+<br>
+<a href="#_plist"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Property list operations</a>
+<p>
+<b><i>Prev:</i> <a href="std_math.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Mathematical operations</a></b>
+<br>
+<b><i>Next:</i> <a href="std_advanced.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Advanced commands</a></b>
+<br>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+
+<p>
+Unless otherwise indicated, all these primitives are in <tt><i>virtuoso.logo.lib.StandardPrimitives</i></tt>.
+</p>
+
+<a name="_general">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>General workspace control</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These are general commands allowing the user to manage the workspace.
+</p>
+
+<a name="contents">
+<p>
+<hr align=left width="50%">
+<b>CONTENTS</b>
+</p>
+
+<p>
+A content list is a three-element list. The first element is a list of the names of procedures, the second element is a list of the names of global variables, and the third element is a list of the names of property lists. Content lists are used in several general workspace-related commands. CONTENTS returns a content list that includes all procedures, variables and property lists currently in the workspace.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> MAKE "var1 "hello</tt>
+<br>
+<tt><b>?</b> MAKE "var2 "goodbye</tt>
+<br>
+<tt><b>?</b> PRINT CONTENTS</tt>
+<br>
+<tt><b>[ [ foo ] [ var1 var2 ] [ ] ]</b></tt>
+</blockquote>
+
+<a name="erase">
+<p>
+<hr align=left width="50%">
+<b>ERASE</b> <i>contentlist</i>
+</p>
+
+<p>
+ERASE erases the procedures, global variables, and property lists specified by the given content list. If any of the specified objects does not exist, or if the given input is not a valid content list, ERASE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> MAKE "var1 "hello</tt>
+<br>
+<tt><b>?</b> MAKE "var2 "goodbye</tt>
+<br>
+<tt><b>?</b> PRINT CONTENTS</tt>
+<br>
+<tt><b>[ [ foo ] [ var1 var2 ] [ ] ]</b></tt>
+<br>
+<tt><b>?</b> ERASE [[][var1][]]</tt>
+<br>
+<tt><b>?</b> PRINT CONTENTS</tt>
+<br>
+<tt><b>[ [ foo ] [ var2 ] [ ] ]</b></tt>
+</blockquote>
+
+<a name="erall">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>ERALL</b>
+</p>
+
+<p>
+ERALL erases the entire contents of the workspace, including all procedures, variables and content lists. It is an abbreviation for ERASE CONTENTS.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> MAKE "var1 "hello</tt>
+<br>
+<tt><b>?</b> MAKE "var2 "goodbye</tt>
+<br>
+<tt><b>?</b> PRINT CONTENTS</tt>
+<br>
+<tt><b>[ [ foo ] [ var1 var2 ] [ ] ]</b></tt>
+<br>
+<tt><b>?</b> ERALL</tt>
+<br>
+<tt><b>?</b> PRINT CONTENTS</tt>
+<br>
+<tt><b>[ [ ] [ ] [ ] ]</b></tt>
+</blockquote>
+
+<a name="printout">
+<p>
+<hr align=left width="50%">
+<b>PRINTOUT</b> <i>contentlist</i>
+<br>
+<b>PO</b> <i>contentlist</i>
+</p>
+
+<p>
+PRINTOUT dumps the text of the procedures, global variables, and property lists specified by the given content list to the current writer. If any of the specified objects does not exist, or if the given input is not a valid content list, PRINTOUT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> MAKE "var1 "hello</tt>
+<br>
+<tt><b>?</b> MAKE "var2 "goodbye</tt>
+<br>
+<tt><b>?</b> PRINTOUT [ [foo] [var2] [] ]</tt>
+<br>
+<tt><b>MAKE "var2 "goodbye</b></tt>
+<br>
+<tt><b>TO foo</b></tt>
+<br>
+<tt><b>PRINT [ in foo ]</b></tt>
+<br>
+<tt><b>END</b></tt>
+</blockquote>
+
+<a name="poall">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>POALL</b>
+</p>
+
+<p>
+POALL dumps the entire contents of the workspace, including all procedures, variables and content lists, to the current writer. It is an abbreviation for PRINTOUT CONTENTS.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> MAKE "var1 "hello</tt>
+<br>
+<tt><b>?</b> MAKE "var2 "goodbye</tt>
+<br>
+<tt><b>?</b> POALL</tt>
+<br>
+<tt><b>MAKE "var1 "hello</b></tt>
+<br>
+<tt><b>MAKE "var2 "goodbye</b></tt>
+<br>
+<tt><b>TO foo</b></tt>
+<br>
+<tt><b>PRINT [ in foo ]</b></tt>
+<br>
+<tt><b>END</b></tt>
+</blockquote>
+
+<a name="load">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>LOAD</b> <i>filename</i>
+</p>
+
+<p>
+LOAD attempts to load previously saved contents from the given filename. Any existing procedures, variables, or properties with the same name as those loaded are replaced. If the given input is not a valid file name, or the specified file cannot be read or is badly formatted, LOAD throws an error.
+</p>
+
+<a name="loadurl">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.NetworkPrimitives</i></tt></td></tr>
+</table>
+<b>LOADURL</b> <i>url</i>
+</p>
+
+<p>
+LOADURL attempts to load previously saved contents from the given URL. Any existing procedures, variables, or properties with the same name as those loaded are replaced. If the given input is not a valid URL, the specified URL cannot be reached, or the contents of the URL are badly formatted, LOADURL throws an error.
+</p>
+
+<a name="save">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.FilePrimitives</i></tt></td></tr>
+</table>
+<b>SAVE</b> <i>filename</i>
+</p>
+
+<p>
+SAVE attempts to save the current contents of the workspace to the given filename. If the file already exists, it is overwritten. If the given input is not a valid file name, or the specified file cannot be written to, SAVE throws an error. SAVE is basically a shorthand for opening the file for writing, setting it as the current writer, executing a POALL, closing the file, and restoring the old writer.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_procedure">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Procedure operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+These commands manipulate the procedure list.
+</p>
+
+<a name="define">
+<p>
+<hr align=left width="50%">
+<b>DEFINE</b> <i>name</i> <i>lambda</i>
+</p>
+
+<p>
+DEFINE defines a procedure with the given name. The second argument must be a lambda list. If it is a normal lambda list, then DEFINE generates a normal procedure. If it is a macro lambda list, then DEFINE generates a macro procedure. DEFINE does not return a value. If the given name is not a word, or if it is a primitive, or if the given parameter list or procedure body is invalid, DEFINE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "factorial [[x] [OUTPUT IFELSE :x&lt;1 [1] [:x*factorial :x-1]]]</tt>
+<br>
+<tt><b>?</b> PRINT factorial 10</tt>
+<br>
+<tt><b>3628800</b></tt>
+<br>
+<tt><b>?</b> DEFINE "macrofactorial [[x] IFELSE :x&lt;1 [1] [:x*macrofactorial :x-1]]</tt>
+<br>
+<tt><b>?</b> PRINT macrofactorial 10</tt>
+<br>
+<tt><b>3628800</b></tt>
+</blockquote>
+
+<a name="text">
+<p>
+<hr align=left width="50%">
+<b>TEXT</b> <i>name</i>
+</p>
+
+<p>
+TEXT returns lambda list describing the procedure with the given name. If the procedure is a normal procedure, TEXT returns a normal lambda list. If the procedure is a macro procedure, TEXT returns a macro lambda list. If the given name is not a word or not an existing procedure, TEXT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "factorial [[x] [OUTPUT IFELSE :x&lt;1 [1] [:x*factorial :x-1]]]</tt>
+<br>
+<tt><b>?</b> SHOW TEXT "factorial</tt>
+<br>
+<tt><b>[ [ x ] [ OUTPUT IFELSE :x&lt;1 [ 1 ] [ :x*factorial :x-1 ] ] ]</b></tt>
+</blockquote>
+
+<a name="to">
+<p>
+<hr align=left width="50%">
+<b>TO</b> <i>name</i> <i>:param1</i> ...
+</p>
+
+<p>
+TO enters an interactive mode in which you can define a normal procedure from the console command line. The first input must be a directly quoted procedure name, but should not be preceded by a quote. Subsequent inputs should be preceded by colons and are interpreted as argument names. Once TO is called, it prompts the user for commands, which are then added to the procedure definition. At the end of the procedure, the user must type END by itself on one line to exit the interactive mode. TO can only be called directly from the console. It cannot be embedded within a command list or called from a procedure.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> TO factorial :x</tt>
+<br>
+<tt><b>&gt;</b> OUTPUT IFELSE :x&lt;1 [1] [:x*factorial :x-1]</tt>
+<br>
+<tt><b>&gt;</b> END</tt>
+<br>
+<tt><b>?</b> SHOW TEXT "factorial</tt>
+<br>
+<tt><b>[ [ x ] [ OUTPUT IFELSE :x&lt;1 [ 1 ] [ :x*factorial :x-1 ] ] ]</b></tt>
+</blockquote>
+
+<a name="tomacro">
+<p>
+<hr align=left width="50%">
+<b>TOMACRO</b> <i>name</i> <i>:param1</i> ...
+</p>
+
+<p>
+TOMACRO enters an interactive mode in which you can define a macro procedure from the console command line. It is identical to TO, except that it creates a macro procedure instead of a normal procedure.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> TOMACRO macrofactorial :x</tt>
+<br>
+<tt><b>&gt;</b> IFELSE :x&lt;1 [1] [:x*macrofactorial :x-1]</tt>
+<br>
+<tt><b>&gt;</b> END</tt>
+<br>
+<tt><b>?</b> SHOW TEXT "macrofactorial</tt>
+<br>
+<tt><b>[ [ x ] IFELSE :x&lt;1 [ 1 ] [ :x*macrofactorial :x-1 ] ]</b></tt>
+</blockquote>
+
+<a name="procedurep">
+<p>
+<hr align=left width="50%">
+<b>PROCEDURE?</b> <i>name</i>
+<br>
+<b>PROCEDUREP</b> <i>name</i>
+</p>
+
+<p>
+PROCEDURE? returns "TRUE if the given name is the name of a procedure, either primitive or user-defined. Otherwise, it returns "FALSE. If the argument is not a word, PROCEDURE? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> DEFINE "foomacro [[] PRINT [in foo]]</tt>
+<br>
+<tt><b>?</b> PRINT PROCEDURE? "foo</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT PROCEDURE? "foomacro</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT PROCEDURE? "make</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT PROCEDURE? "abracadabra</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="primitivep">
+<p>
+<hr align=left width="50%">
+<b>PRIMITIVE?</b> <i>name</i>
+<br>
+<b>PRIMITIVEP</b> <i>name</i>
+</p>
+
+<p>
+PRIMITIVE? returns "TRUE if the given name is the name of a primitive. Otherwise, it returns "FALSE. If the argument is not a word, PRIMITIVE? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> DEFINE "foomacro [[] PRINT [in foo]]</tt>
+<br>
+<tt><b>?</b> PRINT PRIMITIVE? "foo</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT PRIMITIVE? "foomacro</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT PRIMITIVE? "make</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT PRIMITIVE? "abracadabra</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="definedp">
+<p>
+<hr align=left width="50%">
+<b>DEFINED?</b> <i>name</i>
+<br>
+<b>DEFINEDP</b> <i>name</i>
+</p>
+
+<p>
+DEFINED? returns "TRUE if the given name is the name of a user-defined procedure, either a normal procedure or a macro procedure. Otherwise, it returns "FALSE. If the argument is not a word, DEFINED? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> DEFINE "foomacro [[] PRINT [in foo]]</tt>
+<br>
+<tt><b>?</b> PRINT DEFINED? "foo</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT DEFINED? "foomacro</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT DEFINED? "make</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT DEFINED? "abracadabra</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="macrop">
+<p>
+<hr align=left width="50%">
+<b>MACRO?</b> <i>name</i>
+<br>
+<b>MACROP</b> <i>name</i>
+</p>
+
+<p>
+MACRO? returns "TRUE if the given name is the name of a user-defined macro procedure. Otherwise, it returns "FALSE. If the argument is not a word, MACRO? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> DEFINE "foomacro [[] PRINT [in foo]]</tt>
+<br>
+<tt><b>?</b> PRINT MACRO? "foo</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT MACRO? "foomacro</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT MACRO? "make</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT MACRO? "abracadabra</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="procedures">
+<p>
+<hr align=left width="50%">
+<b>PROCEDURES</b>
+</p>
+
+<p>
+PROCEDURES returns a content list that includes all procedures currently in the workspace, but no variables or property lists.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> MAKE "var1 "hello</tt>
+<br>
+<tt><b>?</b> MAKE "var2 "goodbye</tt>
+<br>
+<tt><b>?</b> PRINT PROCEDURES</tt>
+<br>
+<tt><b>[ [ foo ] [ ] [ ] ]</b></tt>
+</blockquote>
+
+<a name="edit">
+<p>
+<hr align=left width="50%">
+<b>EDIT</b> <i>name</i>
+</p>
+
+<p>
+EDIT attempts to open the procedure with the given name in the Logo procedure editor, if available. If the procedure already exists, it is opened. If the procedure does not exist, a new procedure with that name is created and opened. If no Logo editor is available in the current environment, or if the given name is not a valid procedure name, EDIT throws an error.
+</p>
+
+<a name="eraseprocedure">
+<p>
+<hr align=left width="50%">
+<b>ERASEPROCEDURE</b> <i>names</i>
+<br>
+<b>ERP</b> <i>names</i>
+</p>
+
+<p>
+ERASEPROCEDURE erases the procedures with the given names. If the given input is a word, it is interpreted as a single procedure name. If the given input is a list, it is interpreted as a list of procedure names. If any given name is not a valid procedure name, or if no such procedure exists, ERASEPROCEDURE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> SHOW TEXT "foo</tt>
+<br>
+<tt><b>[ [ ] [ PRINT [ in foo ] ] ]</b></tt>
+<br>
+<tt><b>?</b> ERASEPROCEDURE "foo</tt>
+<br>
+<tt><b>?</b> SHOW TEXT "foo</tt>
+<br>
+<tt><b>I don't know how to foo</b></tt>
+</blockquote>
+
+<a name="printoutprocedure">
+<p>
+<hr align=left width="50%">
+<b>PRINTOUTPROCEDURE</b> <i>names</i>
+<br>
+<b>POP</b> <i>names</i>
+</p>
+
+<p>
+PRINTOUTPROCEDURE dumps the contents of the procedures with the given names to the current writer. If the given input is a word, it is interpreted as a single procedure name. If the given input is a list, it is interpreted as a list of procedure names. If any given name is not a valid procedure name, or if no such procedure exists, PRINTOUTPROCEDURE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[x] [PRINT SENTENCE [foo called with] :x]]</tt>
+<br>
+<tt><b>?</b> PRINTOUTPROCEDURE "foo</tt>
+<br>
+<tt><b>TO foo :x</b></tt>
+<br>
+<tt><b>PRINT SENTENCE [ foo called with ] :x</b></tt>
+<br>
+<tt><b>END</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_variable">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Variable operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Using Logo, you can define both global scope and local scope variables in order to store state.
+</p>
+
+<a name="make">
+<p>
+<hr align=left width="50%">
+<b>MAKE</b> <i>name</i> <i>expr</i>
+</p>
+
+<p>
+MAKE sets the variable identified by the given name to the value returned by the given expression. If the given name has been declared as a local scope variable by the LOCAL command, MAKE sets the local variable; otherwise, it sets the global variable. If the specified variable already exists, it is overwritten. If the given name is not a valid variable name, MAKE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "foo [Logo is easy to use]</tt>
+<br>
+<tt><b>?</b> PRINT :foo</tt>
+<br>
+<tt><b>Logo is easy to use</b></tt>
+</blockquote>
+
+<a name="name">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>NAME</b> <i>expr</i> <i>name</i>
+</p>
+
+<p>
+NAME sets the variable identified by the given name to the value returned by the given expression. If the given name has been declared as a local scope variable by the LOCAL command, NAME sets the local variable; otherwise, it sets the global variable. If the specified variable already exists, it is overwritten. If the given name is not a valid variable name, NAME throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> NAME [Logo is easy to use] "foo</tt>
+<br>
+<tt><b>?</b> PRINT :foo</tt>
+<br>
+<tt><b>Logo is easy to use</b></tt>
+</blockquote>
+
+<a name="thing">
+<p>
+<hr align=left width="50%">
+<b>THING</b> <i>name</i>
+<br>
+<i>:name</i>
+</p>
+
+<p>
+THING returns the value of the variable specified by the given name. If the given name has been declared as a local scope variable by the LOCAL command, THING returns the value of the local variable; otherwise, it uses the global variable. If the given name is not a valid variable name, or the specified variable does not exist, THING throws an error. THING is usually abbreviated by prefixing the variable name with a colon.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "foo [Logo is easy to use]</tt>
+<br>
+<tt><b>?</b> PRINT THING "foo</tt>
+<br>
+<tt><b>Logo is easy to use</b></tt>
+<br>
+<tt><b>?</b> PRINT :foo</tt>
+<br>
+<tt><b>Logo is easy to use</b></tt>
+</blockquote>
+
+<a name="namep">
+<p>
+<hr align=left width="50%">
+<b>NAME?</b> <i>name</i>
+<br>
+<b>NAMEP</b> <i>name</i>
+</p>
+
+<p>
+NAME? returns a boolean value indicating whether a variable with the given name has been declared, in either the local or the global scope. If the given name is not a valid variable name, NAME? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "foo "hi</tt>
+<br>
+<tt><b>?</b> IFELSE NAME? "foo [PRINT "defined] [PRINT "undefined]</tt>
+<br>
+<tt><b>defined</b></tt>
+<br>
+<tt><b>?</b> ERASENAME "foo</tt>
+<br>
+<tt><b>?</b> IFELSE NAME? "foo [PRINT "defined] [PRINT "undefined]</tt>
+<br>
+<tt><b>undefined</b></tt>
+</blockquote>
+
+<a name="local">
+<p>
+<hr align=left width="50%">
+<b>LOCAL</b> <i>namelist</i>
+</p>
+
+<p>
+LOCAL declares one or more variable names as local to the current procedure. Any accesses to those variables through MAKE or THING in the current procedure will affect the local variable, and not any global variable of the same name. Parameter names for the procedure are automatically declared as local. If LOCAL is given a single word, that word is declared as a local variable name. If LOCAL is given a list, the members of the list are declared as local variable names. If LOCAL is invoked at the top level, the given names are declared local within the scope of the current thread. If any given name is not a valid variable name, LOCAL throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [LOCAL "x MAKE "x "inside PRINT :x]]</tt>
+<br>
+<tt><b>?</b> MAKE "x "outside</tt>
+<br>
+<tt><b>?</b> PRINT :x</tt>
+<br>
+<tt><b>outside</b></tt>
+<br>
+<tt><b>?</b> foo</tt>
+<br>
+<tt><b>inside</b></tt>
+<br>
+<tt><b>?</b> PRINT :x</tt>
+<br>
+<tt><b>outside</b></tt>
+</blockquote>
+
+<a name="localmake">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>LOCALMAKE</b> <i>name</i> <i>expr</i>
+</p>
+
+<p>
+LOCALMAKE declares the given variable as local to the current procedure, and initializes it at the same time. It is equivalent to calling LOCAL <i>name</i> followed by MAKE <i>name</i> <i>expr</i>.
+</p>
+
+<a name="names">
+<p>
+<hr align=left width="50%">
+<b>NAMES</b>
+</p>
+
+<p>
+NAMES returns a content list that includes all global variables currently in the workspace, but no procedures or property lists.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> MAKE "var1 "hello</tt>
+<br>
+<tt><b>?</b> MAKE "var2 "goodbye</tt>
+<br>
+<tt><b>?</b> PRINT NAMES</tt>
+<br>
+<tt><b>[ [ ] [ var1 var2 ] [ ] ]</b></tt>
+</blockquote>
+
+<a name="erasename">
+<p>
+<hr align=left width="50%">
+<b>ERASENAME</b> <i>names</i>
+<br>
+<b>ERN</b> <i>names</i>
+</p>
+
+<p>
+ERASENAME deletes the global variables specified by the given names. If the given input is a word, it is interpreted as a single variable name. If the given input is a list, it is interpreted as a list of variable names. ERASENAME affects both global and all local variables of the given name. If any given name is not a valid variable name, or any specified global variable does not exist, ERASENAME throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "foo [Logo is easy to use]</tt>
+<br>
+<tt><b>?</b> PRINT :foo</tt>
+<br>
+<tt><b>Logo is easy to use</b></tt>
+<br>
+<tt><b>?</b> ERASENAME "foo</tt>
+<br>
+<tt><b>?</b> PRINT :foo</tt>
+<br>
+<tt><b>Unknown name: foo</b></tt>
+</blockquote>
+
+<a name="printoutname">
+<p>
+<hr align=left width="50%">
+<b>PRINTOUTNAME</b> <i>names</i>
+<br>
+<b>PON</b> <i>names</i>
+</p>
+
+<p>
+PRINTOUTNAME dumps the contents of the global variables specified by the given names to the current writer. If the given input is a word, it is interpreted as a single variable name. If the given input is a list, it is interpreted as a list of variable names. PRINTOUTNAME includes only global variables. If a local variable with a given name has been declared as a local scope variable by the LOCAL command, PRINTOUTNAME does not include it. If any given name is not a valid variable name, or any specified global variable does not exist, PRINTOUTNAME throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "var "hello</tt>
+<br>
+<tt><b>?</b> PRINTOUTNAME "var</tt>
+<br>
+<tt><b>MAKE "var1 "hello</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_plist">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Property list operations</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Property lists, sometimes called association lists, provide a fast lookup method for related named data. Within each property list, you can have any number of properties, each with a key and a value.
+</p>
+
+<p>
+Turtle Tracks also includes a special property list named ".SYSTEM" with which you can view, and sometimes edit, system preferences. This special property list is called the "system property list". You cannot add properties to or remove properties from the system property list, you cannot erase or print out the system property list, and the system property list will not appear when you call PLISTS.
+</p>
+
+<p>
+<table bgcolor="#ccffcc" border=5 cellpadding=2 cellspacing=3>
+	<caption align=bottom>
+	<b>System properties</b>
+	</caption>
+	<tr>
+		<th nowrap>
+			Key
+		</th>
+		<th nowrap>
+			Type
+		</th>
+		<th nowrap>
+			Read/writable
+		</th>
+		<th nowrap>
+			Description
+		</th>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>JAVA.VERSION</tt>
+		</td>
+		<td nowrap>
+			word
+		</td>
+		<td nowrap>
+			R
+		</td>
+		<td>
+			Returns the Java virtual machine version currently being run
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>LOGO.AUTOIGNORE</tt>
+		</td>
+		<td nowrap>
+			boolean
+		</td>
+		<td nowrap>
+			R,W
+		</td>
+		<td>
+			If "TRUE, suppresses "You don't say what to do with..." errors. If "FALSE, throws those errors. Default is "FALSE.
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>LOGO.CASESENSITIVE</tt>
+		</td>
+		<td nowrap>
+			boolean
+		</td>
+		<td nowrap>
+			R,W
+		</td>
+		<td>
+			If "TRUE, string comparisons are done case sensitive. If "FALSE, string comparisons are not case sensitive. Default is "FALSE.
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>LOGO.OVERRIDEPRIMITIVES</tt>
+		</td>
+		<td nowrap>
+			boolean
+		</td>
+		<td nowrap>
+			R,W
+		</td>
+		<td>
+			If "TRUE, allows TO, TOMACRO and DEFINE to create procedures that override primtive names. If "FALSE, an attempt to override a primitive name will result in an error. Default is "FALSE.
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>LOGO.VERSION</tt>
+		</td>
+		<td nowrap>
+			word
+		</td>
+		<td nowrap>
+			R
+		</td>
+		<td>
+			Returns the Turtle Tracks version currently being run
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>OS.ARCH</tt>
+		</td>
+		<td nowrap>
+			word
+		</td>
+		<td nowrap>
+			R
+		</td>
+		<td>
+			Returns the type of architecture of the machine currently being run on.
+		</td>
+	</tr>
+	<tr>
+		<td nowrap>
+			<tt>OS.NAME</tt>
+		</td>
+		<td nowrap>
+			word
+		</td>
+		<td nowrap>
+			R
+		</td>
+		<td>
+			Returns the name of the operating system currently being run
+		</td>
+	</tr>
+</table>
+
+<a name="pprop">
+<p>
+<hr align=left width="50%">
+<b>PPROP</b> <i>plistname</i> <i>propname</i> <i>expr</i>
+</p>
+
+<p>
+PPROP sets the specified property of the specified list to the specified value. If the specified property list does not yet exist, it is created. If the specified property of the specified list already exists, it is overwritten. If the given property list name or property name is not a valid name, PPROP throws an error. If you attempt to edit a nonexistent or non-writeable system property, PPROP does nothing but does not throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PPROP "my.plist "language "Logo</tt>
+<br>
+<tt><b>?</b> PRINT GPROP "my.plist "language</tt>
+<br>
+<tt><b>Logo</b></tt>
+</blockquote>
+
+<a name="gprop">
+<p>
+<hr align=left width="50%">
+<b>GPROP</b> <i>plistname</i> <i>propname</i>
+</p>
+
+<p>
+GPROP returns the value of the specified property of the specified list. If the specified property list or property does not exist, or if you attempt to access a nonexistent or non-readable system property, GPROP returns the empty list. If the given property list name or property name is not a valid name, GPROP throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PPROP "my.plist "language "Logo</tt>
+<br>
+<tt><b>?</b> PRINT GPROP "my.plist "language</tt>
+<br>
+<tt><b>Logo</b></tt>
+</blockquote>
+
+<a name="remprop">
+<p>
+<hr align=left width="50%">
+<b>REMPROP</b> <i>plistname</i> <i>propname</i>
+</p>
+
+<p>
+REMPROP removes the specified property of the specified list. If the specified property was the last property in the specified list, the list is also deleted. If the given property list name or property name is not a valid name, or the specified property list or property does not exist, REMPROP throws an error. If you attempt to remove a system property, REMPROP does nothing but does not throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PPROP "my.plist "language "Logo</tt>
+<br>
+<tt><b>?</b> PRINT GPROP "my.plist "language</tt>
+<br>
+<tt><b>Logo</b></tt>
+<br>
+<tt><b>?</b> REMPROP "my.plist "language</tt>
+<br>
+<tt><b>?</b> PRINT GPROP "my.plist "language</tt>
+<br>
+<tt><b>Unknown property list: my.plist</b></tt>
+</blockquote>
+
+<a name="eraseplist">
+<p>
+<hr align=left width="50%">
+<b>ERASEPLIST</b> <i>plistnames</i>
+<br>
+<b>ERPL</b> <i>plistnames</i>
+</p>
+
+<p>
+ERASEPLIST completely deletes the specified lists. If the given input is a word, it is interpreted as a single property list name. If the given input is a list, it is interpreted as a list of property list names. If any given property list name is not a valid name, ERASEPLIST throws an error. If, however, any specified property list does not exist, ERASEPLIST does not throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PPROP "my.plist "language "Logo</tt>
+<br>
+<tt><b>?</b> PRINT GPROP "my.plist "language</tt>
+<br>
+<tt><b>Logo</b></tt>
+<br>
+<tt><b>?</b> ERASEPLIST "my.plist</tt>
+<br>
+<tt><b>?</b> PRINT GPROP "my.plist "language</tt>
+<br>
+<tt><b>Unknown property list: my.plist</b></tt>
+</blockquote>
+
+<a name="printoutplist">
+<p>
+<hr align=left width="50%">
+<b>PRINTOUTPLIST</b> <i>plistnames</i>
+<br>
+<b>POPL</b> <i>plistnames</i>
+</p>
+
+<p>
+PRINTOUTPLIST dumps the contents of the specified lists to the current writer. If the given input is a word, it is interpreted as a single property list name. If the given input is a list, it is interpreted as a list of property list names. If any given property list name is not a valid name, or any specified property list does not exist, PRINTOUTPLIST throws an error. PRINTOUTPLIST cannot printout the system property list, and will throw an error if it is attempted.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PPROP "my.plist "language "Logo</tt>
+<br>
+<tt><b>?</b> PPROP "my.plist "os "MacOS</tt>
+<br>
+<tt><b>?</b> PRINTOUTPLIST "my.plist</tt>
+<br>
+<tt><b>PPROP "my.plist "language "Logo</b></tt>
+<br>
+<tt><b>PPROP "my.plist "os "MacOS</b></tt>
+</blockquote>
+
+<a name="plists">
+<p>
+<hr align=left width="50%">
+<b>PLISTS</b>
+</p>
+
+<p>
+PLISTS returns a content list that includes all property lists currently in the workspace, but no procedures or variables. It does not include the system property list.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> DEFINE "foo [[] [PRINT [in foo]]]</tt>
+<br>
+<tt><b>?</b> PPROP "my.plist "language "Logo</tt>
+<br>
+<tt><b>?</b> PPROP "my.plist "os "MacOS</tt>
+<br>
+<tt><b>?</b> PRINT PLISTS</tt>
+<br>
+<tt><b>[ [ ] [ ] [ my.plist ] ]</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 18 December 1997
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>

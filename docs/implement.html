@@ -1,0 +1,394 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<a name="top">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>The Turtle Tracks implementation of Logo</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<a href="#_language"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Language concepts</a>
+<br>
+<a href="#_parsing"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Parsing, operators and precedence</a>
+<br>
+<a href="#_features"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Key features</a>
+<br>
+<a href="#_runtime"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Runtime environment</a>
+<p>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="=> ">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+
+
+
+<p>
+Turtle Tracks is a unique implementation of Logo, built entirely using the Java language and platform. This chapter describes the Logo language specification and key language concepts, and the details of the Turtle Tracks implementation of Logo, including tokenizing and parsing, command semantics, and the runtime model.
+</p>
+
+<a name="_language">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Language concepts</b></font>
+</td></tr></table>
+</p>
+
+<p>
+<b>Lisp background</b>
+</p>
+
+<blockquote>
+<p>
+Logo is a derivative and distant cousin of the Lisp programming language. Like Lisp, it employs no static type checking., and its data structures consist of string atoms and typeless lists. Logo programs are structured as collections of functions which interact with call-by-value semantics. State is represented in the form of symbols that can be bound to functions, immutable data, and several other elements of the environment. All data is referenced through pointer semantics, and a garbage collector reclaims unused space.
+</p>
+<p>
+Unlike most languages in the Lisp family, however, Logo uses dynamic scoping, and Logo functions are not first-class. Because of this, Logo is often considered a hybrid functional/imperative language. Logo also includes a large library of primitive functions, including more powerful list-manipulation functions than are typically offered by implementations of Common Lisp or Scheme. In addition, Logo syntax differs from most variants of Lisp in several key areas. First, list boundaries are denoted by square brackets instead of parens, and do not delimit separate function calls. Also, Logo syntax supports several infix operators for use in mathematical expressions. Some implementations of Logo, including Turtle Tracks, add additional features such as exception handling, threads, streams, and property lists.
+</p>
+</blockquote>
+
+<p>
+<b>Data structures</b>
+</p>
+
+<blockquote>
+<p>
+Two types of logo data structures exist: words and lists. A word, analogous to an atom in other Lisp derivatives, is represented by a single string. A list is an ordered collection of other Logo data structures, which can include words and other lists. Primitive functions exist for list manipulation, including accessing the elements on both ends of a list.
+</p>
+<p>
+A Logo word is represented by a string, delimited by white space or by square brackets. Delimiting characters or certain escape characters may be represented using backslashes. In addition, a special character, the vertical bar, may be used to escape an entire sequence of characters. Here are a few examples of Logo words:
+</p>
+<ul>
+<li>
+<tt>MAKE</tt>
+</li>
+<li>
+<tt>"Hello!!!</tt>
+</li>
+<li>
+<tt>This\ is| a long string...|\|| |</tt>
+<br>(represents the string "<tt>This is a long string...| </tt>")
+</li>
+</ul>
+<p>
+A Logo list is a collection of data, separated by white space, and enclosed in square brackets. Here are a few examples of lists
+</p>
+<ul>
+<li>
+<tt>[Hello world]</tt>
+<br>(represents a list of two elements)
+</li>
+<li>
+<tt>[[This is a list] within a list]</tt>
+<br>(represents a list of four elements, the first of which is another list)
+</li>
+<li>
+<tt>[|This list| |has only two elements|]</tt>
+<br>(represents a list of two elements, both of which are words)
+</li>
+<li>
+<tt>[]</tt>
+<br>(represents the empty list)
+</li>
+</ul>
+</blockquote>
+
+<p>
+<b>Names</b>
+</p>
+
+<blockquote>
+<p>
+A name is a triple consisting of an identifying word, a value (which may be a word or a list), and a scope. Names may be bound and unbound using primitives in the Logo language. The scope of a name is defined by the syntactic manner in which it is bound, and the runtime environment in which it is bound. The value corresponding to a name may be retrieved using Logo primitives.
+</p>
+<p>
+Scope in Logo is dynamic. That is, a stack is kept at runtime, each element of which contains one level of scope. When a name is bound, unbound, or accessed, its identifier is searched for starting from the top scope in the stack, and working down towards the bottom scope in the stack, which is called the global scope. The first instance of the identifier found in this manner is used. The global scope is always present; higher scopes, called local scopes, are added and removed by function invocations.
+</p>
+</blockquote>
+
+<p>
+<b>Functions</b>
+</p>
+
+<blockquote>
+<p>
+A function is a mapping from an ordered list of pieces of data, called arguments, to a single piece of data, called the return value or result. When a function is invoked, it gains and keeps control of the machine until it has completed calculating the return value.
+</p>
+<p>
+Two orthogonal classifications of functions exist. The first is normal versus macro. These differ in their behavior with respect to "stop" exceptions, which direct function termination and report return values. The other classification is named versus anonymous. Named functions are defined as those that are parts of procedures, where a procedure is a pair consisting of an identifying name and a function. Functions which are not named functions are called anonymous functions, also sometimes called "lambda expressions."
+</p>
+<p>
+Associated with each function is a nonnegative integer value, the default number of arguments. This number is used when a function is in a command list, to assist in parsing its arguments.
+</p>
+</blockquote>
+
+<p>
+<b>Commands</b>
+</p>
+
+<blockquote>
+<p>
+A command is an object which performs some computation when it is invoked, possibly producing side effects, and generates a return value. A command may be a data constant, or a procedure with its arguments. A word constant command is represented by a word consisting of a quote (") followed by the representation of the data itself. If the word is numeric, the quote may be omitted. A list constant command is simply represented by the list representation. A procedure command is represented by a left paren, followed by the procedure's name, followed by its arguments in order, followed by a right paren. If, however, the function is being passed its default number of arguments, then both parens may be (and usually are) omitted.
+</p>
+<p>
+The semantics of the invocation of a command are as follows: If the command is a constant, then its return value is the value of that constant. If the command is a procedure, then its arguments are evaluated by first invoking those commands. The return values thereof are then given to the procedure's function as its arguments, and control of the machine is given to the function. The return value of the command is the return value generated by the function after it halts. If the function does not generate a return value, then the command does not generate a return value.
+</p>
+</blockquote>
+
+<p>
+<b>Command lists</b>
+</p>
+
+<blockquote>
+<p>
+A command list, sometimes called an executable list, is a list containing an ordered series of commands. The following are examples of command lists:
+</p>
+<ul>
+<li>
+<tt>["hello]</tt>
+<br>(One command: a word constant.)
+</li>
+<li>
+<tt>[print "hello]</tt>
+<br>(One command: a named function followed by one argument: a word constant.)
+</li>
+<li>
+<tt>[print "hello [hello world]]</tt>
+<br>(Two commands: a named function with one argument, and a list constant. The named function, print, has a default number of arguments value of 1.)
+</li>
+<li>
+<tt>[(print "hello [hello world])]</tt>
+<br>(One command: a named function with two arguments.)
+</li>
+<li>
+<tt>[print sqrt 30]</tt>
+<br>(One command: a function with one argument: a function with a word constant as an argument.)
+</li>
+<li>
+<tt>[print sqrt 30 make "a "b]</tt>
+<br>(Two commands, both functions. The first function has a default number of arguments of 1; the second has a default number of arguments of 2.)
+</li>
+<li>
+<tt>[]</tt>
+<br>(The empty command list: no commands.)
+</li>
+</ul>
+<p>
+The semantics of the execution of a command list are as follows: all commands in the list are invoked in order. The return value of the command list is the return value of the first command that generates a return value. If no command in the list generates a return value, the command list generates no return value. If more than one command generates a return value, the semantics of the command list are to raise an "error" exception upon the generation of the second return value.
+</p>
+</blockquote>
+
+<p>
+<b>Lambda lists</b>
+</p>
+
+<blockquote>
+<p>
+A lambda list is a list describing an anonymous function. It contains a formal argument list and a command list. The formal argument list must be a list of words, which are interpreted as name identifiers. There are two classifications of lambda lists: normal lambda lists and macro lambda lists. A normal lambda list contains two elements: the first being the formal argument list, and the second being the command list. A macro lambda list contains at least one element: the first being the formal argument list, and the rest of the elements comprising the command list.
+</p>
+<p>
+Here are examples of lambda lists:
+</p>
+<ul>
+<li>
+<tt>[[x][output :x*:x]]</tt>
+<br>(Normal lambda list with one formal argument.)
+</li>
+<li>
+<tt>[[x] :x*:x]</tt>
+<br>(Macro lambda list with one formal argument.)
+</li>
+<li>
+<tt>[[]]</tt>
+<br>(Empty macro lambda list with no arguments.)
+</li>
+</ul>
+<p>
+The semantics of the invocation of a lambda list are as follows: First, a new scope is created on top of the scope stack. Next, the formal argument names are bound in this new scope to the arguments passed into the function. Then, the command list is executed, and a return value is generated. Once the command list has completed execution, either by finishing the invocation of all its commands or by having an exception thrown out of it, the new scope is removed. Lambda lists are often invoked by the execution of the primitive APPLY, but may be invoked in other ways.
+</p>
+<p>
+The means by which a return value is generated depends on the type of function-- i.e. the type of lambda list. If the lambda list is a macro lambda list, then the return value is the return value of the command list. If, however, the lambda list is a normal lambda list, then the return value is the value associated with any "stop" exception thrown out of the command list. If the command list does not throw a "stop" exception, or it throws a "stop" exception without an associated value, then no return value is generated. "Stop" exceptions are generally thrown by the invocation of the primitives STOP or OUTPUT.
+</p>
+</blockquote>
+
+<p>
+<b>Procedures</b>
+</p>
+
+<blockquote>
+<p>
+Two types of procedures exist: user-defined procedures and primitives. A primitive is a procedure that is implemented in Java and cannot be generated, modified or removed from within the Logo runtime environment (with certain exceptions). A user-defined procedure consists of an identifying word, a list of formal argument names, and a text string describing the procedure. This text string is parsed into a command list upon invocation of the procedure. User-defined procedures can be modified and manipulated from within the Logo runtime environment, through primitives such as DEFINE and TEXT, and the special forms TO and TOMACRO.
+</p>
+<p>
+The semantics of invoking a user-defined procedure are the same as the semantics of invoking a lambda list. A scope is created, and the formal arguments are bound, the command list is executed, a return value is optionally generated, and the scope is destroyed. User-defined procedures may also be classified into normal and macro procedures, with semantic differences analogous to the corresponding lambda lists.
+</p>
+</blockquote>
+
+<p>
+<b>Exceptions</b>
+</p>
+
+<blockquote>
+<p>
+An exception is a pair consisting of an identifying word called the id, and an optional piece of data called the value. Two operations on exceptions are possible: throwing and catching.
+</p>
+<p>
+Exception semantics are as follows: An exception is thrown by a command. The exception propogates up the evaluation tree until it is caught, or until the execution has reached the top level. When an exception is caught, it is prevented from propogating further, and its parts may optionally be processed.
+</p>
+<p>
+There are three types of exceptions: error exceptions, stop exceptions, and user-defined exceptions. Error exceptions are usually thrown by commands when they encounter an unexpected condition such as a runtime type error. If they are not caught, they typically cause execution to terminate with an error message. Stop exceptions are thrown by the STOP and OUTPUT primitive. A stop exception is caught automatically once it attempts to propogate out of a normal (non-macro) function. Stop and error exceptions are usually not explicitly caught by a Logo program. The third type, user-defined exceptions, are thrown by the THROW primitive and are usually caught explicitly by the program using the TRY or CATCH primitives.
+</p>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_parsing">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Parsing, operators and precedence</b></font>
+</td></tr></table>
+</p>
+
+<p>
+<i>This section of the manual not completed.</i>
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_features">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Key features</b></font>
+</td></tr></table>
+</p>
+
+<p>
+<i>This section of the manual not completed.</i>
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+
+
+
+
+
+<a name="_runtime">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Runtime environment</b></font>
+</td></tr></table>
+</p>
+
+<p>
+The Turtle Tracks environment is unique because it was designed from the ground up to run atop the Java runtime environment. Because of this, it supports some features and abilities that are uncommon among more traditional Logo implementations, and it also suffers a few drawbacks related to its dependence on Java. In addition, several key differences exist between Turtle Tracks and traditional Logo runtimes.
+</p>
+
+<p>
+<b>Threaded operation</b>
+</p>
+
+<blockquote>
+<p>
+All operations in Turtle Tracks are run in Java threads. In particular, when a direct command is entered from the console, a new thread named ".MAIN" is created for it, even if the command itself does not involve threading. This provides a high degree of flexibility and responsiveness in the user interface and allows instant and clean interruption of running command lists. However, because of this, some aspects of the operation of Turtle Tracks may be slightly dependent on the thread implemenetation of the Java runtime and/or the underlying operating system. Some runtimes may limit the number of threads that may be run simultaneously, and some runtimes may exhibit various levels of decreased interactivity while a Logo command is being run due to idiosyncracies in thread time sharing. A few Java runtimes may contain bugs that cause instability at high levels of thread activity. Consult the technical documentation for your Java VM for further details.
+</p>
+</blockquote>
+
+<p>
+<b>Runtime linking</b>
+</p>
+
+<blockquote>
+<p>
+Java programs are linked at runtime instead of at compile time like most language systems. This dynamic linking opens the door for powerful extension features, and Turtle Tracks takes advantage of this by providing a plug-in primitive group architecture. In addition to the standard set of primitives provided, external primitive sets can be loaded and linked in or unloaded at will using the LOADPRIMITIVES and UNLOADPRIMITIVES commands, providing a powerful opportunity for customization. An API, described in the Turtle Tracks Java Programmers Guide <i>(not yet available)</i>, allows Java programmers to create custom primitive sets for use with Turtle Tracks, and even supports embedding the entire Turtle Tracks engine within an external Java program.
+</p>
+</blockquote>
+
+<p>
+<b>Dynamic memory allocation</b>
+</p>
+
+<blockquote>
+<p>
+Most traditional implementations of Logo preallocate a fixed number of "nodes" for use as list nodes. Turtle Tracks instead uses a dynamic memory allocation model based on Java's memory model and garbage collection system. Words and lists may be of any arbitrary length, and the number of available nodes is limited only by the system resources allocated to the Java VM. This was done to improve cross-platform capability on Java VMs that may provide different amounts of system resources to the running program, to improve flexibility in word lengths, and to provide maximum garbage collection performance by using the native garbage collection facilities of the Java VM. Because of this, the traditionial NODES primitive is meaningless and not implemented. Turtle Tracks does, however, provide a GC primitive which invokes the garbage collector of the host Java VM.
+</p>
+</blockquote>
+
+<p>
+<b>Lists and arrays combined</b>
+</p>
+
+<blockquote>
+<p>
+Turtle Tracks lists are actually implemented as arrays. Because array copies are native methods in Java, manipulating the beginning of a long array is usually as fast or nearly as fast as manipulating the beginning of a long list. Thus, to simplify the language implementation, lists are implemented as arrays, and arrays are not included as a separate data type. This also has several beneficial side effects, among them being that the ITEM primitive is of constant order when given a list as the parameter.
+</p>
+</blockquote>
+
+<p>
+Note: this section of the manual not yet completed.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 6 December 1997
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>

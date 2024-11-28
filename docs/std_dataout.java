@@ -1,0 +1,31 @@
+
+
+add("WORD concatenates the given arguments, which should be words, into a single word and returns the result. If an argument is a list, WORD throws an error.");
+add("LIST creates a new list in which the given arguments are the members. The arguments can be either words or lists.");
+add("SENTENCE creates a new list by concatenating the arguments. If an argument is a word, it becomes a member of the new list. If an argument is a list, its members become members of the new list.");
+add("FPUT creates a new list in which the first argument is the first element, and the members of the second argument are the remaining elements. If the second argument is not a list, FPUT throws an error.");
+add("LPUT creates a new list in which the first argument is the last element, and the members of the second argument are the remaining elements. If the second argument is not a list, LPUT throws an error.");
+add("PARSE parses the given word as a list and returns the new list. If the given expression is not a word, or if it is badly formatted, PARSE throws an error.");
+add("QSORT sorts the given list using the QuickSort algorithm, and using the second argument as a comparison function. The second argument should be a function which returns \"TRUE if its first argument should be placed before its second argument, or \"FALSE otherwise. The lambda may either be a lambda list or a procedure or primitive name. Typically, it should be one of the primitive names \"BEFOREP or \"LESSP. If the first argument to QSORT is not a list, or its second argument is not a lambda that takes two arguments, QSORT throws an error.");
+add("GENSYM generates and returns a unique symbol of the form ".n" where n is a unique positive integer.");
+add("Logo provides a number of list manipulation commands, with which you can parse and extract parts of words and lists.");
+add("FIRST returns the first element of the given argument, if it is a list, or the first character, if it is a word. If the list or word is empty, FIRST will throw an error.");
+add("LAST returns the last element of the given argument, if it is a list, or the first character, if it is a word. If the argument is empty, LAST will throw an error.");
+add("BUTFIRST returns the the given argument with FIRST removed. If the argument is empty, BUTFIRST will throw an error. BUTFIRST can be abbreviated BF.");
+add("BUTLAST returns the the given argument with LAST removed. If the argument is empty, BUTLAST will throw an error. BUTLAST can be abbreviated BL.");
+add("ITEM returns the num'th element of the second argument. Num must be an integer. If the second argument is a list, ITEM returns the num'th element of the list. If the second argument is a word, ITEM returns the num'th character of the word. If num is not an integer, or if num is less than 1 or greater than the number of elements in the second argument, ITEM will throw an error.");
+add("PICK chooses and returns a random element of the given argument. If the argument is a list, PICK returns a randomly-chosen element of the list. If the argument is a word, PICK returns a randomly-chosen character of the word. If the argument is the empty list or the empty word, PICK will throw an error.");
+add("Using these commands, you can gather information about logo data structures.");
+add("LENGTH returns the length of the given argument. If the argument is a word, LENGTH returns the number of characters it contains. If the argument is a list, LENGTH returns the number of elements it contains.");
+add("EMPTYP returns \"TRUE if the argument is the empty word or the empty list, or \"FALSE if it is not.");
+add("WORD? returns \"TRUE if the argument is a word, or \"FALSE if it is a list.");
+add("LIST? returns \"TRUE if the argument is a list, or \"FALSE if it is a word.");
+add("NUMBER? returns \"TRUE if the argument is a number, or \"FALSE if it is a list or a non-numeric word.");
+add("MEMBER? returns \"TRUE if the first argument is a member of the second argument, or \"FALSE if it is not. If the second argument is not a list, MEMBER? will throw an error.");
+add("IGNORE takes one argument and does nothing with it. This can be useful if a primitive or procedure you must call returns some output that you don't need.");
+add("Using these commands, you can manipulate words as strings.");
+add("BEFORE? returns \"TRUE if the first argument comes before the second in lexical order. Case is ignored, so \"apple comes before \"BANANA. If either argument is not a word, BEFORE? throws an error.");
+add("ASCII returns the ascii value of the given character as an integer. If the input is a list, or if it is a word whose length is not 1, ASCII will throw an error.");
+add("CHAR returns a character whose ascii value is the given integer. If the input is not an integer, CHAR will throw an error.");
+add("UPPERCASE returns the given argument with all letters converted to upper case. If the argument is not a word, UPPERCASE throws an error.");
+add("LOWERCASE returns the given argument with all letters converted to lower case. If the argument is not a word, LOWERCASE throws an error.");

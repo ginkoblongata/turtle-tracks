@@ -1,0 +1,741 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<a name="top">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>Data structures</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<a href="#_constructor"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Constructors</a>
+<br>
+<a href="#_selector"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Selectors</a>
+<br>
+<a href="#_query"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Queries</a>
+<br>
+<a href="#_string"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">String Manipulation</a>
+<p>
+<b><i>Next:</i> <a href="std_flow.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Flow control</a></b>
+<br>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+
+<p>
+Unless otherwise indicated, all these primitives are in <tt><i>virtuoso.logo.lib.StandardPrimitives</i></tt>.
+</p>
+
+<a name="_constructor">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Constructors</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Logo data structures are in the form of words and lists. These commands are some common ways of creating these data structures.
+</p>
+
+<a name="word">
+<p>
+<hr align=left width="50%">
+<b>WORD</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>WORD</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+WORD concatenates the given arguments, which should be words, into a single word and returns the result. If an argument is a list, WORD throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT WORD "abra "cadabra</tt>
+<br>
+<tt><b>abracadabra</b></tt>
+</blockquote>
+
+<a name="list">
+<p>
+<hr align=left width="50%">
+<b>LIST</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>LIST</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+LIST creates a new list in which the given arguments are the members. The arguments can be either words or lists.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LIST "abra "cadabra</tt>
+<br>
+<tt><b>abra cadabra</b></tt>
+<br>
+<tt><b>?</b> PRINT (LIST "This "is [a list])</tt>
+<br>
+<tt><b>This is [ a list ]</b></tt>
+</blockquote>
+
+<a name="sentence">
+<p>
+<hr align=left width="50%">
+<b>SENTENCE</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>SE</b> <i>expr1</i> <i>expr2</i>
+<br>
+<b>(</b><b>SENTENCE</b> <i>expr1</i> ...<b>)</b>
+<br>
+<b>(</b><b>SE</b> <i>expr1</i> ...<b>)</b>
+</p>
+
+<p>
+SENTENCE creates a new list by concatenating the arguments. If an argument is a word, it becomes a member of the new list. If an argument is a list, its members become members of the new list.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT SENTENCE "abra "cadabra</tt>
+<br>
+<tt><b>abra cadabra</b></tt>
+<br>
+<tt><b>?</b> PRINT (SENTENCE "This "is [a sentence])</tt>
+<br>
+<tt><b>This is a sentence</b></tt>
+<br>
+<tt><b>?</b> PRINT (SENTENCE "This "is [[yet another] sentence])</tt>
+<br>
+<tt><b>This is [ yet another ] sentence</b></tt>
+</blockquote>
+
+<a name="fput">
+<p>
+<hr align=left width="50%">
+<b>FPUT</b> <i>expr</i> <i>list</i>
+</p>
+
+<p>
+FPUT creates a new list in which the first argument is the first element, and the members of the second argument are the remaining elements. If the second argument is not a list, FPUT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT FPUT "Logo [is a cool language]</tt>
+<br>
+<tt><b>Logo is a cool language</b></tt>
+<br>
+<tt><b>?</b> PRINT FPUT [Logo] [is a [cool] language]</tt>
+<br>
+<tt><b>[ Logo ] is a [ cool ] language</b></tt>
+</blockquote>
+
+<a name="lput">
+<p>
+<hr align=left width="50%">
+<b>LPUT</b> <i>expr</i> <i>list</i>
+</p>
+
+<p>
+LPUT creates a new list in which the first argument is the last element, and the members of the second argument are the remaining elements. If the second argument is not a list, LPUT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LPUT "Logo [Cool people program in]</tt>
+<br>
+<tt><b>Cool people program in Logo</b></tt>
+<br>
+<tt><b>?</b> PRINT LPUT [Turtle Tracks] [Cool people program using]</tt>
+<br>
+<tt><b>Cool people program using [ Turtle Tracks ]</b></tt>
+</blockquote>
+
+<a name="parse">
+<p>
+<hr align=left width="50%">
+<b>PARSE</b> <i>word</i>
+</p>
+
+<p>
+PARSE parses the given word as a list and returns the new list. If the given expression is not a word, or if it is badly formatted, PARSE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "x PARSE "|Hello world, [This is][a list]|</tt>
+<br>
+<tt><b>?</b> SHOW :x</tt>
+<br>
+<tt><b>[ Hello world, [ This is ] [ a list ] ]</b></tt>
+<br>
+<tt><b>?</b> PRINT LENGTH :x</tt>
+<br>
+<tt><b>4</b></tt>
+</blockquote>
+
+<a name="qsort">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>QSORT</b> <i>list</i> <i>lambda</i>
+</p>
+
+<p>
+QSORT sorts the given list using the QuickSort algorithm, and using the second argument as a comparison function. The second argument should be a function which returns "TRUE if its first argument should be placed before its second argument, or "FALSE otherwise. The lambda may either be a lambda list or a procedure or primitive name. Typically, it should be one of the primitive names "BEFOREP or "LESSP. If the first argument to QSORT is not a list, or its second argument is not a lambda that takes two arguments, QSORT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> SHOW QSORT [Turtle Tracks includes powerful list primitives] "BEFOREP</tt>
+<br>
+<tt><b>[ includes list powerful primitives Tracks Turtle ]</b></tt>
+<br>
+<tt><b>?</b> SHOW QSORT [3 1 4 1 5 9] "LESSP</tt>
+<br>
+<tt><b>[ 1 1 3 4 5 9 ]</b></tt>
+<br>
+<tt><b>?</b> SHOW QSORT [3 1 4 1 5 9] "GREATERP</tt>
+<br>
+<tt><b>[ 9 5 4 3 1 1 ]</b></tt>
+<br>
+<tt><b>?</b> SHOW QSORT [1 2 4 8 16 32] "BEFOREP</tt>
+<br>
+<tt><b>[ 1 16 2 32 4 8 ]</b></tt>
+</blockquote>
+
+<a name="gensym">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>GENSYM</b>
+</p>
+
+<p>
+GENSYM generates and returns a unique symbol of the form ".n" where n is a unique positive integer.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT GENSYM</tt>
+<br>
+<tt><b>.1</b></tt>
+<br>
+<tt><b>?</b> PRINT GENSYM</tt>
+<br>
+<tt><b>.2</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_selector">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Selectors</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Logo provides a number of list manipulation commands, with which you can parse and extract parts of words and lists.
+</p>
+
+<a name="first">
+<p>
+<hr align=left width="50%">
+<b>FIRST</b> <i>expr</i>
+</p>
+
+<p>
+FIRST returns the first element of the given argument, if it is a list, or the first character, if it is a word. If the list or word is empty, FIRST will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT FIRST "turtle</tt>
+<br>
+<tt><b>t</b></tt>
+<br>
+<tt><b>?</b> PRINT FIRST [[The first element] is a list]</tt>
+<br>
+<tt><b>The first element</b></tt>
+</blockquote>
+
+<a name="last">
+<p>
+<hr align=left width="50%">
+<b>LAST</b> <i>expr</i>
+</p>
+
+<p>
+LAST returns the last element of the given argument, if it is a list, or the first character, if it is a word. If the argument is empty, LAST will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LAST "turtle</tt>
+<br>
+<tt><b>e</b></tt>
+<br>
+<tt><b>?</b> PRINT LAST [Logo is fun]</tt>
+<br>
+<tt><b>fun</b></tt>
+</blockquote>
+
+<a name="butfirst">
+<p>
+<hr align=left width="50%">
+<b>BUTFIRST</b> <i>expr</i>
+<br>
+<b>BF</b> <i>expr</i>
+</p>
+
+<p>
+BUTFIRST returns the the given argument with FIRST removed. If the argument is empty, BUTFIRST will throw an error. BUTFIRST can be abbreviated BF.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT BUTFIRST "turtle</tt>
+<br>
+<tt><b>urtle</b></tt>
+<br>
+<tt><b>?</b> PRINT BUTFIRST [[The first element] is a list]</tt>
+<br>
+<tt><b>is a list</b></tt>
+</blockquote>
+
+<a name="butlast">
+<p>
+<hr align=left width="50%">
+<b>BUTLAST</b> <i>expr</i>
+<br>
+<b>BL</b> <i>expr</i>
+</p>
+
+<p>
+BUTLAST returns the the given argument with LAST removed. If the argument is empty, BUTLAST will throw an error. BUTLAST can be abbreviated BL.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT BUTLAST "turtle</tt>
+<br>
+<tt><b>turtl</b></tt>
+<br>
+<tt><b>?</b> PRINT BUTLAST [Logo is fun]</tt>
+<br>
+<tt><b>Logo is</b></tt>
+</blockquote>
+
+<a name="item">
+<p>
+<hr align=left width="50%">
+<b>ITEM</b> <i>num</i> <i>expr</i>
+</p>
+
+<p>
+ITEM returns the num'th element of the second argument. Num must be an integer. If the second argument is a list, ITEM returns the num'th element of the list. If the second argument is a word, ITEM returns the num'th character of the word. If num is not an integer, or if num is less than 1 or greater than the number of elements in the second argument, ITEM will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ITEM 3 "turtle</tt>
+<br>
+<tt><b>r</b></tt>
+<br>
+<tt><b>?</b> PRINT ITEM 4 [Turtle Tracks has many advanced features]</tt>
+<br>
+<tt><b>many</b></tt>
+</blockquote>
+
+<a name="pick">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>PICK</b> <i>expr</i>
+</p>
+
+<p>
+PICK chooses and returns a random element of the given argument. If the argument is a list, PICK returns a randomly-chosen element of the list. If the argument is a word, PICK returns a randomly-chosen character of the word. If the argument is the empty list or the empty word, PICK will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT PICK "turtle</tt>
+<br>
+<tt><b>u</b></tt>
+<br>
+<tt><b>?</b> PRINT PICK "turtle</tt>
+<br>
+<tt><b>t</b></tt>
+<br>
+<tt><b>?</b> PRINT PICK [Turtle Tracks has many advanced features]</tt>
+<br>
+<tt><b>advanced</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_query">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Queries</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Using these commands, you can gather information about logo data structures.
+</p>
+
+<a name="length">
+<p>
+<hr align=left width="50%">
+<b>LENGTH</b> <i>expr</i>
+</p>
+
+<p>
+LENGTH returns the length of the given argument. If the argument is a word, LENGTH returns the number of characters it contains. If the argument is a list, LENGTH returns the number of elements it contains.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LENGTH "abracadabra</tt>
+<br>
+<tt><b>11</b></tt>
+<br>
+<tt><b>?</b> PRINT LENGTH [[The first element] is a list]</tt>
+<br>
+<tt><b>4</b></tt>
+</blockquote>
+
+<a name="emptyp">
+<p>
+<hr align=left width="50%">
+<b>EMPTYP</b> <i>expr</i>
+</p>
+
+<p>
+EMPTYP returns "TRUE if the argument is the empty word or the empty list, or "FALSE if it is not.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT EMPTYP "</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT EMPTYP []</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT EMPTYP (LIST ")</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="wordp">
+<p>
+<hr align=left width="50%">
+<b>WORD?</b> <i>expr</i>
+<br>
+<b>WORDP</b> <i>expr</i>
+</p>
+
+<p>
+WORD? returns "TRUE if the argument is a word, or "FALSE if it is a list.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT WORD? "abracadabra</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT WORD? [abracadabra]</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="listp">
+<p>
+<hr align=left width="50%">
+<b>LIST?</b> <i>expr</i>
+<br>
+<b>LISTP</b> <i>expr</i>
+</p>
+
+<p>
+LIST? returns "TRUE if the argument is a list, or "FALSE if it is a word.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LIST? [abracadabra]</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT LIST? "abracadabra</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="numberp">
+<p>
+<hr align=left width="50%">
+<b>NUMBER?</b> <i>expr</i>
+<br>
+<b>NUMBERP</b> <i>expr</i>
+</p>
+
+<p>
+NUMBER? returns "TRUE if the argument is a number, or "FALSE if it is a list or a non-numeric word.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT NUMBER? 3.5</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT NUMBER? "three</tt>
+<br>
+<tt><b>FALSE</b></tt>
+<br>
+<tt><b>?</b> PRINT NUMBER? [3.5]</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="memberp">
+<p>
+<hr align=left width="50%">
+<b>MEMBER?</b> <i>expr</i> <i>list</i>
+<br>
+<b>MEMBERP</b> <i>expr</i> <i>list</i>
+</p>
+
+<p>
+MEMBER? returns "TRUE if the first argument is a member of the second argument, or "FALSE if it is not. If the second argument is not a list, MEMBER? will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT MEMBER? "Logo [Anyone can program in Logo]</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT MEMBER? "Logo [Anyone can program in [Logo]]</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="ignore">
+<p>
+<hr align=left width="50%">
+<b>IGNORE</b> <i>expr</i>
+</p>
+
+<p>
+IGNORE takes one argument and does nothing with it. This can be useful if a primitive or procedure you must call returns some output that you don't need.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_string">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>String Manipulation</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Using these commands, you can manipulate words as strings.
+</p>
+
+<a name="beforep">
+<p>
+<hr align=left width="50%">
+<b>BEFORE?</b> <i>word1</i> <i>word2</i>
+<br>
+<b>BEFOREP</b> <i>word1</i> <i>word2</i>
+</p>
+
+<p>
+BEFORE? returns "TRUE if the first argument comes before the second in lexical order. Case is ignored, so "apple comes before "BANANA. If either argument is not a word, BEFORE? throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT BEFORE? "apple "BANANA</tt>
+<br>
+<tt><b>TRUE</b></tt>
+<br>
+<tt><b>?</b> PRINT BEFORE? 3 10</tt>
+<br>
+<tt><b>FALSE</b></tt>
+</blockquote>
+
+<a name="ascii">
+<p>
+<hr align=left width="50%">
+<b>ASCII</b> <i>char</i>
+</p>
+
+<p>
+ASCII returns the ascii value of the given character as an integer. If the input is a list, or if it is a word whose length is not 1, ASCII will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT ASCII "a</tt>
+<br>
+<tt><b>97</b></tt>
+<br>
+<tt><b>?</b> PRINT ASCII "A</tt>
+<br>
+<tt><b>65</b></tt>
+</blockquote>
+
+<a name="char">
+<p>
+<hr align=left width="50%">
+<b>CHAR</b> <i>integer</i>
+</p>
+
+<p>
+CHAR returns a character whose ascii value is the given integer. If the input is not an integer, CHAR will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT CHAR 113</tt>
+<br>
+<tt><b>q</b></tt>
+</blockquote>
+
+<a name="uppercase">
+<p>
+<hr align=left width="50%">
+<b>UPPERCASE</b> <i>word</i>
+</p>
+
+<p>
+UPPERCASE returns the given argument with all letters converted to upper case. If the argument is not a word, UPPERCASE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT UPPERCASE "Hello123</tt>
+<br>
+<tt><b>HELLO123</b></tt>
+</blockquote>
+
+<a name="lowercase">
+<p>
+<hr align=left width="50%">
+<b>LOWERCASE</b> <i>word</i>
+</p>
+
+<p>
+LOWERCASE returns the given argument with all letters converted to lower case. If the argument is not a word, LOWERCASE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT LOWERCASE "Hello123</tt>
+<br>
+<tt><b>hello123</b></tt>
+</blockquote>
+
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 3 February 1999
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>

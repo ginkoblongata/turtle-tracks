@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>Advanced operations</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<b><i>Prev:</i> <a href="std_work.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Workspace Management</a></b>
+<br>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+<p>
+These are a few advanced command primitives that may sometimes be useful for special-purpose applications.
+</p>
+
+<a name="wait">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.StandardPrimitives</i></tt></td></tr>
+</table>
+<b>WAIT</b> <i>integer</i>
+</p>
+
+<p>
+WAIT causes the current thread to pause for the given amount of time, measured in milliseconds. If the argument is not a nonnegative integer, WAIT throws an error.
+</p>
+
+<a name="gc">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.StandardPrimitives</i></tt></td></tr>
+</table>
+<b>GC</b>
+</p>
+
+<p>
+GC forces a run of the garbage collector. Normally, garbage collection happens automatically when needed, but you may occasionally want to explicitly run it, in preparation for a performance-critical task for example. GC does not return a value.
+</p>
+
+<a name="exec">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ShellPrimitives</i></tt></td></tr>
+</table>
+<b>EXEC</b> <i>list</i>
+<br>
+<b>(</b><b>EXEC</b> <i>list</i> <i>plist</i><b>)</b>
+</p>
+
+<p>
+EXEC causes the execution of a command in the operating system. The given list should contain the command to be executed. You can optionally specify a property list that contains runtime environment variables to be used by the operating system command. EXEC does not return until the command has completed running. While the process is running, its standard input stream is directed from the current reader, its standard output and error streams are directed to the current writer. EXEC returns the result code returned by the command. Under a unix-like system, this code is typically 0 for successful completion, or a negative value for an error condition. Note that the actual behavior of EXEC is not defined and may depend on details of the underlying operating system and the Java implementation. For example, if the underlying operating system does not support process input and output streams, EXEC will not allow interaction of the current reader and writer with the process, but will instead simply block until the process has completed execution. If the given command is not a list or is not a valid operating system command, or if the given property list name does not exist, EXEC throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "result EXEC [date]</tt>
+<br>
+<tt><b>Wed Jul 23 11:24:12 PDT 1997</b></tt>
+<br>
+<tt><b>?</b> PRINT :result</tt>
+<br>
+<tt><b>0</b></tt>
+<br>
+<i>Note: The above output was run on a unix system. Behavior of EXEC may differ for other operating system environments.</i>
+</blockquote>
+
+<a name="shell">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ShellPrimitives</i></tt></td></tr>
+</table>
+<b>SHELL</b> <i>list</i>
+<br>
+<b>(</b><b>SHELL</b> <i>list</i> <i>plist</i><b>)</b>
+</p>
+
+<p>
+SHELL causes the execution of a command in the operating system. The given list should contain the command to be executed. You can optionally specify a property list that contains runtime environment variables to be used by the operating system command. SHELL returns a list containing any output sent by the command to standard out. While the process is running, its standard error stream is directed to the current writer. SHELL does not provide any provision for directing a stream to the process's input. SHELL blocks until the command has completed running. Note that the actual behavior of SHELL is not defined and may depend on details of the underlying operating system and the Java implementation. For example, if the underlying operating system does not support process input and output streams, SHELL will simply block until the process has completed execution, and will return the empty list. If the given command is not a list or is not a valid operating system command, or if the given property list name does not exist, SHELL throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "result SHELL [date]</tt>
+<br>
+<tt><b>?</b> PRINT :result</tt>
+<br>
+<tt><b>Wed Jul 23 11:24:12 PDT 1997</b></tt>
+<br>
+<i>Note: The above output was run on a unix system. Behavior of SHELL may differ for other operating system environments.</i>
+</blockquote>
+
+<a name="execasync">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ShellPrimitives</i></tt></td></tr>
+</table>
+<b>EXECASYNC</b> <i>list</i>
+<br>
+<b>(</b><b>EXECASYNC</b> <i>list</i> <i>plist</i><b>)</b>
+</p>
+
+<p>
+EXECASYNC causes the execution of a command in the operating system. The given list should contain the command to be executed. You can optionally specify a property list that contains runtime environment variables to be used by the operating system command. EXECASYNC returns immediately and allows the process to execute asynchronously. It does not return a value. Note that the actual behavior of EXECASYNC is not defined and may depend on details of the underlying operating system and the Java implementation. For example, some systems may not allow asynchronous spawning of processes. If the given command is not a list or is not a valid operating system command, or if the given property list name does not exist, EXECASYNC throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> EXECASYNC [netscape]</tt>
+<br>
+<tt><b>?</b> IGNORE EXEC SENTENCE [ps -u] SHELL [whoami]</tt>
+<br>
+<tt><b>&nbsp;&nbsp;&nbsp;PID&nbsp;TTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TIME&nbsp;CMD</b></tt>
+<br>
+<tt><b>&nbsp;21640&nbsp;pts/0&nbsp;&nbsp;&nbsp;0:00&nbsp;zwgc</b></tt>
+<br>
+<tt><b>&nbsp;22280&nbsp;pts/0&nbsp;&nbsp;&nbsp;0:07&nbsp;java</b></tt>
+<br>
+<tt><b>&nbsp;21635&nbsp;pts/0&nbsp;&nbsp;&nbsp;0:01&nbsp;tcsh</b></tt>
+<br>
+<tt><b>&nbsp;22290&nbsp;pts/0&nbsp;&nbsp;&nbsp;0:09&nbsp;netscape</b></tt>
+<br>
+<tt><b>&nbsp;22302&nbsp;pts/0&nbsp;&nbsp;&nbsp;0:00&nbsp;ps</b></tt>
+<br>
+<i>Note: The above output was run on a unix system. Behavior of EXECASYNC may differ for other operating system environments.</i>
+</blockquote>
+
+<a name="loadprimitives">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LoaderPrimitives</i></tt></td></tr>
+</table>
+<b>LOADPRIMITIVES</b> <i>classname</i>
+</p>
+
+<p>
+LOADPRIMITIVES loads the primitive group specified by the given Java class name. The primitives contained within that primitive group can henceforth be invoked within your Logo environment. If the given classname is already loaded, LOADPRIMITIVES does nothing. If the given classname is not the name of a valid Java class that implements <tt>virtuoso.logo.PrimitiveGroup</tt>, LOADPRIMITIVES throws an error.
+</p>
+
+<a name="unloadprimitives">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LoaderPrimitives</i></tt></td></tr>
+</table>
+<b>UNLOADPRIMITIVES</b> <i>classname</i>
+</p>
+
+<p>
+UNLOADPRIMITIVES unloads the primitive group specified by the given Java class name. The primitives contained within that primitive group will be removed from your Logo environment. If the given name is not the class name of a loaded primitive group, UNLOADPRIMITIVES does nothing. If a list is given as the argument, UNLOADPRIMITIVES throws an error.
+</p>
+
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 11 December 1997
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>

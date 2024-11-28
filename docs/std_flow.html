@@ -1,0 +1,1272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html>
+
+<head>
+
+<title>
+Turtle Tracks documentation
+</title>
+
+</head>
+
+<body bgcolor="#ffffff">
+
+<a name="top">
+
+<p>
+<center>
+<table width="100%" border=6 cellpadding=8><tr><td nowrap bgcolor="#ccffcc">
+<center>
+<hr size=4>
+<font size="+2"><b>Flow Control</b></font>
+<hr size=4>
+</center>
+</td></tr></table>
+</center>
+</p>
+
+
+<p>
+<hr size=1 noshade>
+<a href="#_executor"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Executor Structures</a>
+<br>
+<a href="#_mapping"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Mapping Structures</a>
+<br>
+<a href="#_conditional"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Conditional Structures</a>
+<br>
+<a href="#_loop"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Loop Structures</a>
+<br>
+<a href="#_thread"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Threads</a>
+<br>
+<a href="#_error"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Error Handling</a>
+<br>
+<a href="#_jump"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Jumps</a>
+<p>
+<b><i>Prev:</i> <a href="std_data.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Data Structures</a></b>
+<br>
+<b><i>Next:</i> <a href="std_io.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Input/Output</a></b>
+<br>
+<b><i>Up:</i> <a href="index.html"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Table of contents</a></b>
+<hr size=1 noshade>
+</p>
+
+
+
+
+
+
+<p>
+Unless otherwise indicated, all these primitives are in <tt><i>virtuoso.logo.lib.StandardPrimitives</i></tt>.
+</p>
+
+<a name="_executor">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Executor Structures</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Executors take a list as an argument, interpret it as a command list or a lambda list, and execute it.
+</p>
+
+
+<a name="run">
+<p>
+<hr align=left width="50%">
+<b>RUN</b> <i>cmdlist</i>
+</p>
+
+<p>
+RUN parses the given list as a sequence of Logo commands, and executes them. If the command list evaluates to a value, RUN returns that value, otherwise it returns nothing. If the argument is not a list, if the list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running the list, RUN throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> RUN [PRINT 4+5]</tt>
+<br>
+<tt><b>9</b></tt>
+<br>
+<tt><b>?</b> PRINT RUN [4+5]</tt>
+<br>
+<tt><b>9</b></tt>
+</blockquote>
+
+<a name="runresult">
+<p>
+<hr align=left width="50%">
+<b>RUNRESULT</b> <i>cmdlist</i>
+</p>
+
+<p>
+RUNRESULT parses the given list as a sequence of Logo commands, and executes them. If the command list returns a value, RUNRESULT returns a list with that value as the single element, otherwise it returns the empty list. If the argument is not a list, if the list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running the list, RUNRESULT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> SHOW RUNRESULT [4+5]</tt>
+<br>
+<tt><b>[ 9 ]</b></tt>
+<br>
+<tt><b>?</b> SHOW RUNRESULT [PRINT 4+5]</tt>
+<br>
+<tt><b>9</b></tt>
+<br>
+<tt><b>[ ]</b></tt>
+</blockquote>
+
+<a name="apply">
+<p>
+<hr align=left width="50%">
+<b>APPLY</b> <i>lambda</i> <i>argslist</i>
+</p>
+
+<p>
+APPLY parses the given list as a lambda list, and executes it, creating a local scope and binding the formal arguments with the values given in the argslist. It returns the result of the invocation, or nothing if the lambda returns nothing. If the first argument is a normal lambda list, it executes it as a normal procedure-- that is, you must use the OUTPUT command to return a value, or the STOP command to exit in the middle without returning a value. If the first argument is a macro lambda list, it executes as a macro procedure-- that is, it evaluates directly, and if you call STOP or OUTPUT, it will exit the enclosing procedure. If the first argument is a word, it is interpreted as a procedure name, and that procedure is invoked. The second argument should be a list, whose elements are treated as the arguments to the function invocation. If the second argument is not a list, or the number of elements in the list given does not match the number of formal arguments in the lambda, APPLY throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "dist [ [x y] [OUTPUT SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> PRINT APPLY :dist [3 4]</tt>
+<br>
+<tt><b>5</b></tt>
+<br>
+<tt><b>?</b> MAKE "baddist [ [x y] [SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> PRINT APPLY :baddist [3 4]</tt>
+<br>
+<tt><b>I don't know what to do with 5</b></tt>
+<br>
+<tt><b>... while executing APPLY</b></tt>
+<br>
+<tt><b>?</b> MAKE "macrodist [ [x y] SQRT :x*:x+:y*:y ]</tt>
+<br>
+<tt><b>?</b> PRINT APPLY :macrodist [3 4]</tt>
+<br>
+<tt><b>5</b></tt>
+<br>
+<tt><b>?</b> MAKE "badmacrodist [ [x y] OUTPUT SQRT :x*:x+:y*:y ]</tt>
+<br>
+<tt><b>?</b> PRINT APPLY :badmacrodist [3 4]</tt>
+<br>
+<tt><b>Can use STOP or OUTPUT only inside a procedure</b></tt>
+</blockquote>
+
+<a name="applyresult">
+<p>
+<hr align=left width="50%">
+<b>APPLYRESULT</b> <i>lambda</i> <i>argslist</i>
+</p>
+
+<p>
+APPLYRESULT parses the first argument as a lambda list, and executes it, creating a local scope and binding the formal arguments with the values given in the argslist. It returns a list containing the result of the invocation as the single element, or the empty list if the lambda returns nothing. If the first argument is a normal lambda list, it executes it as a normal procedure-- that is, you must use the OUTPUT command to return a value, or the STOP command to exit in the middle without returning a value. If the first argument is a macro lambda list, it executes as a macro procedure-- that is, it evaluates directly, and if you call STOP or OUTPUT, it will exit the enclosing procedure. If the first argument is a word, it is interpreted as a procedure name, and that procedure is invoked. The second argument should be a list, whose elements are treated as the arguments to the function invocation. If the second argument is not a list, or the number of elements in the list given does not match the number of formal arguments in the lambda, APPLYRESULT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "dist [ [x y] [OUTPUT SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> SHOW APPLYRESULT :dist [3 4]</tt>
+<br>
+<tt><b>[ 5 ]</b></tt>
+<br>
+<tt><b>?</b> MAKE "dist2 [ [x y] [PRINT SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> SHOW APPLYRESULT :dist2 [3 4]</tt>
+<br>
+<tt><b>5</b></tt>
+<br>
+<tt><b>[ ]</b></tt>
+<br>
+<tt><b>?</b> SHOW APPLYRESULT "product [1 2 3 4 5]</tt>
+<br>
+<tt><b>[ 120 ]</b></tt>
+</blockquote>
+
+<a name="invoke">
+<p>
+<hr align=left width="50%">
+<b>INVOKE</b> <i>lambda</i> <i>arg</i>
+<br>
+<b>(</b><b>INVOKE</b> <i>lambda</i> <i>arg1</i> <i>arg2</i> ...<b>)</b>
+</p>
+
+<p>
+INVOKE parses the given list as a lambda list, and executes it, creating a local scope and binding the formal arguments with the values given. It returns the result of the invocation, or nothing if the lambda returns nothing. If the first argument is a normal lambda list, it executes it as a normal procedure-- that is, you must use the OUTPUT command to return a value, or the STOP command to exit in the middle without returning a value. If the first argument is a macro lambda list, it executes as a macro procedure-- that is, it evaluates directly, and if you call STOP or OUTPUT, it will exit the enclosing procedure. If the first argument is a word, it is interpreted as a procedure name, and that procedure is invoked. If the number of arguments given does not match the number of formal arguments in the lambda, INVOKE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "dist [ [x y] [OUTPUT SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> PRINT (INVOKE :dist 3 4)</tt>
+<br>
+<tt><b>5</b></tt>
+<br>
+<tt><b>?</b> MAKE "baddist [ [x y] [SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> PRINT INVOKE :baddist [3 4]</tt>
+<br>
+<tt><b>I don't know what to do with 5</b></tt>
+<br>
+<tt><b>... while executing INVOKE</b></tt>
+<br>
+<tt><b>?</b> MAKE "macrodist [ [x y] SQRT :x*:x+:y*:y ]</tt>
+<br>
+<tt><b>?</b> PRINT INVOKE :macrodist [3 4]</tt>
+<br>
+<tt><b>5</b></tt>
+<br>
+<tt><b>?</b> MAKE "badmacrodist [ [x y] OUTPUT SQRT :x*:x+:y*:y ]</tt>
+<br>
+<tt><b>?</b> PRINT INVOKE :badmacrodist [3 4]</tt>
+<br>
+<tt><b>Can use STOP or OUTPUT only inside a procedure</b></tt>
+</blockquote>
+
+<a name="invokeresult">
+<p>
+<hr align=left width="50%">
+<b>INVOKERESULT</b> <i>lambda</i> <i>arg</i>
+<br>
+<b>(</b><b>INVOKERESULT</b> <i>lambda</i> <i>arg1</i> <i>arg2</i> ...<b>)</b>
+</p>
+
+<p>
+INVOKERESULT parses the first argument as a lambda list, and executes it, creating a local scope and binding the formal arguments with the values given. It returns a list containing the result of the invocation as the single element, or the empty list if the lambda returns nothing. If the first argument is a normal lambda list, it executes it as a normal procedure-- that is, you must use the OUTPUT command to return a value, or the STOP command to exit in the middle without returning a value. If the first argument is a macro lambda list, it executes as a macro procedure-- that is, it evaluates directly, and if you call STOP or OUTPUT, it will exit the enclosing procedure. If the first argument is a word, it is interpreted as a procedure name, and that procedure is invoked. If the number of arguments given does not match the number of formal arguments in the lambda, INVOKERESULT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "dist [ [x y] [OUTPUT SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> SHOW (INVOKERESULT :dist 3 4)</tt>
+<br>
+<tt><b>[ 5 ]</b></tt>
+<br>
+<tt><b>?</b> MAKE "dist2 [ [x y] [PRINT SQRT :x*:x+:y*:y] ]</tt>
+<br>
+<tt><b>?</b> SHOW (INVOKERESULT :dist2 3 4)</tt>
+<br>
+<tt><b>5</b></tt>
+<br>
+<tt><b>[ ]</b></tt>
+<br>
+<tt><b>?</b> SHOW (INVOKERESULT "product 1 2 3 4 5)</tt>
+<br>
+<tt><b>[ 120 ]</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_mapping">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Mapping Structures</b></font>
+</td></tr></table>
+</p>
+
+<a name="map">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>MAP</b> <i>lambda</i> <i>argslist</i>
+<br>
+<b>(</b><b>MAP</b> <i>lambda</i> <i>argslist1</i> <i>argslist2</i> ...<b>)</b>
+</p>
+
+<p>
+MAP parses the first argument as a lambda list, and executes it for each of the arguments given in the argument lists, creating a local scope and binding the formal arguments with the values given. It returns a list containing results of the invocation on each of the elements of the argument lists. If the first argument is a normal lambda list, it executes it as a normal procedure-- that is, you must use the OUTPUT command to return a value, or the STOP command to exit in the middle without returning a value. If the first argument is a macro lambda list, it executes as a macro procedure-- that is, it evaluates directly, and if you call STOP or OUTPUT, it will exit the enclosing procedure. If the first argument is a word, it is interpreted as a procedure name, and that procedure is invoked. If an invocation of the lambda does not return a value, that invocation is ignored during construction of the return list (i.e. the list returned from MAP is shorter.) If the number of argument lists given does not match the number of formal arguments in the lambda, the argument lists are not all of the same length, or the first argument is a procedure name that is not defined, MAP throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> SHOW MAP [[x] [OUTPUT 2*:x]] [3 -5 1]</tt>
+<br>
+<tt><b>[ 6 -10 2 ]</b></tt>
+<br>
+<tt><b>?</b> SHOW (MAP [[x y] SQRT :x*:x+:y*:y] [3 5 1] [4 12 1])</tt>
+<br>
+<tt><b>[ 5 13 1.4142135623730951 ]</b></tt>
+<br>
+<tt><b>?</b> SHOW MAP "uppercase [Logo is FUN]</tt>
+<br>
+<tt><b>[ LOGO IS FUN ]</b></tt>
+<br>
+<tt><b>?</b> SHOW (MAP [[x] if number? :x [:x]] [43 six 3.4 [55] -4.5e2])</tt>
+<br>
+<tt><b>[ 43 3.4 -450 ]</b></tt>
+</blockquote>
+
+<a name="foreach">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>FOREACH</b> <i>argslist</i> <i>lambda</i>
+<br>
+<b>(</b><b>FOREACH</b> <i>argslist1</i> <i>argslist2</i> ... <i>lambda</i><b>)</b>
+</p>
+
+<p>
+FOREACH parses the last argument as a lambda list, and executes it for each of the arguments given in the argument lists, creating a local scope and binding the formal arguments with the values given. It does not return anything. If the first argument is a normal lambda list, it executes it as a normal procedure-- that is, you must use the OUTPUT command to return a value, or the STOP command to exit in the middle without returning a value. If the first argument is a macro lambda list, it executes as a macro procedure-- that is, it evaluates directly, and if you call STOP or OUTPUT, it will exit the enclosing procedure. If the first argument is a word, it is interpreted as a procedure name, and that procedure is invoked. If the number of argument lists given does not match the number of formal arguments in the lambda, the argument lists are not all of the same length, the last argument is a procedure name that is not defined, or the function returns a value, FOREACH throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> FOREACH [3 -5 1] [[x] [PRINT 2*:x]]</tt>
+<br>
+<tt><b>6</b></tt>
+<br>
+<tt><b>-10</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>?</b> FOREACH SHELL [ls] "print</tt>
+<br>
+<tt><b>animals.logo</b></tt>
+<br>
+<tt><b>logotelnet.logo</b></tt>
+<br>
+<tt><b>mandel.logo</b></tt>
+<br>
+<tt><b>threads.logo</b></tt>
+<br>
+<tt><b>torus.logo</b></tt>
+<br>
+<i>Note: The above output was generated on a unix-based platform. The exact behavior of the SHELL primitive is undefined and platform-dependent.</i>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_conditional">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Conditional Structures</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Conditionals conditionally execute a runnable list. Like RUN, conditionals typically return the value of the list expression that was executed, or no value if the expression doesn't evaluate to a value.
+</p>
+
+<a name="if">
+<p>
+<hr align=left width="50%">
+<b>IF</b> <i>expr</i> <i>cmdlist</i>
+</p>
+
+<p>
+IF first evaluates the given expression. If it evaluates to "TRUE, the given list is then parsed as a sequence of Logo commands and executed, otherwise the given list is ignored. IF never returns a value, even if the command list is executed and evaluates to a value. If expr does not evaluate to "TRUE or "FALSE, a non-list is given as an input, or if the list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running the list, IF throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> IF 1=1 [PRINT "Yes]</tt>
+<br>
+<tt><b>Yes</b></tt>
+<br>
+<tt><b>?</b> IF 1=2 [PRINT "Whoops]</tt>
+</blockquote>
+
+<a name="ifelse">
+<p>
+<hr align=left width="50%">
+<b>IFELSE</b> <i>expr</i> <i>cmdlist1</i> <i>cmdlist2</i>
+<br>
+<b>(</b><b>IF</b> <i>expr</i> <i>cmdlist1</i> <i>cmdlist2</i><b>)</b>
+</p>
+
+<p>
+IFELSE first evaluates the given expression. If it evaluates to "TRUE, list1 is then parsed as a sequence of Logo commands and executed, otherwise list2 is executed. If the executed list evaluates to a value, then IFELSE returns that value. If expr does not evaluate to "TRUE or "FALSE, a non-list is given as an input, or if the list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running the list, IFELSE throws an error. Note that IF can also behave in the same way as IFELSE by enclosing it in parentheses.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> IFELSE 1=1 [PRINT "Yes] [PRINT "Whoops]</tt>
+<br>
+<tt><b>Yes</b></tt>
+<br>
+<tt><b>?</b> IFELSE 1=2 [PRINT "Whoops] [PRINT "No]</tt>
+<br>
+<tt><b>No</b></tt>
+<br>
+<tt><b>?</b> PRINT IFELSE 1=2 [1+1] [2+2]</tt>
+<br>
+<tt><b>4</b></tt>
+</blockquote>
+
+<a name="test">
+<p>
+<hr align=left width="50%">
+<b>TEST</b> <i>expr</i>
+</p>
+
+<p>
+TEST sets the current test value, which is used in subsequent IFTRUE and IFFALSE commands. If the given expression evaluates to "TRUE then the test value is set to true. If the given expression evaluates to "FALSE then the test value is set to false. If the given expression does not evaluate to "TRUE or "FALSE then TEST throws an error.
+</p>
+
+<a name="iftrue">
+<p>
+<hr align=left width="50%">
+<b>IFTRUE</b> <i>cmdlist</i>
+<br>
+<b>IFT</b> <i>cmdlist</i>
+</p>
+
+<p>
+If the current test value set by TEST is true, the given list is parsed as a sequence of Logo commands and executed, otherwise the given list is ignored. IFTRUE never returns a value, even if the command list is executed and evaluates to a value. If there is no current test value, a non-list is given as an input, or if the list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running the list, IFTRUE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> RUN [TEST 1+1=2 IFTRUE [PRINT "Yes]]</tt>
+<br>
+<tt><b>Yes</b></tt>
+</blockquote>
+
+<a name="iffalse">
+<p>
+<hr align=left width="50%">
+<b>IFFALSE</b> <i>cmdlist</i>
+<br>
+<b>IFF</b> <i>cmdlist</i>
+</p>
+
+<p>
+If the current test value set by TEST is false, the given list is parsed as a sequence of Logo commands and executed, otherwise the given list is ignored. IFFALSE never returns a value, even if the command list is executed and evaluates to a value. If there is no current test value, a non-list is given as an input, or if the list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running the list, IFFALSE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> RUN [TEST 1+1=3 IFFALSE [PRINT "No] IFTRUE [PRINT "Whoops]]</tt>
+<br>
+<tt><b>No</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_loop">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Loop Structures</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Loop primitives can execute a set of commands repeatedly.
+</p>
+
+<a name="repeat">
+<p>
+<hr align=left width="50%">
+<b>REPEAT</b> <i>integer</i> <i>cmdlist</i>
+</p>
+
+<p>
+The given list is parsed as a sequence of Logo commands and executed the number of times specified by the given integer. REPEAT never returns a value, even if the command list evaluates to a value. If the first input is not a valid integer, a non-list is given as the second input, the list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running the list, REPEAT throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> REPEAT 3 [PRINT "Hello]</tt>
+<br>
+<tt><b>Hello</b></tt>
+<br>
+<tt><b>Hello</b></tt>
+<br>
+<tt><b>Hello</b></tt>
+</blockquote>
+
+<a name="repcount">
+<p>
+<hr align=left width="50%">
+<b>REPCOUNT</b>
+</p>
+
+<p>
+REPCOUNT evaluates to the current iteration number in the innermost repeat loop. If invoked while not inside a repeat loop, REPCOUNT returns -1.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> REPEAT 2 [REPEAT 3 [PRINT REPCOUNT]]</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<tt><b>?</b> MAKE "x 1 WHILE [:x&lt;3] [PRINT REPCOUNT MAKE "x :x+1]</tt>
+<br>
+<tt><b>-1</b></tt>
+<br>
+<tt><b>-1</b></tt>
+<br>
+<tt><b>-1</b></tt>
+</blockquote>
+
+<a name="while">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>WHILE</b> <i>condlist</i> <i>cmdlist</i>
+</p>
+
+<p>
+The given condlist is parsed as a sequence of Logo commands. It must evaluate to a boolean value. As long as the condlist evaluates to true, the given cmdlist is parsed as a sequence of Logo commands and repeatedly executed. The cmdlist should not evaluate to a value. The condlist is evaluated first, so it is possible that the cmdlist will never execute. WHILE never returns a value. If either list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running either list, WHILE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "x 1 WHILE [:x&lt;10] [PRINT :x MAKE "x :x*2]</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>4</b></tt>
+<br>
+<tt><b>8</b></tt>
+<br>
+<tt><b>?</b> MAKE "x 1 WHILE [:x&gt;10] [PRINT :x MAKE "x :x*2]</tt>
+</blockquote>
+
+<a name="until">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>UNTIL</b> <i>condlist</i> <i>cmdlist</i>
+</p>
+
+<p>
+The given condlist is parsed as a sequence of Logo commands. It must evaluate to a boolean value. Until the condlist evaluates to true, the given cmdlist is parsed as a sequence of Logo commands and repeatedly executed. The cmdlist should not evaluate to a value. The condlist is evaluated first, so it is possible that the cmdlist will never execute. UNTIL never returns a value. If either list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running either list, UNTIL throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "x 1 UNTIL [:x&lt;10] [PRINT :x MAKE "x :x*2]</tt>
+<br>
+<tt><b>?</b> MAKE "x 1 UNTIL [:x&gt;10] [PRINT :x MAKE "x :x*2]</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>4</b></tt>
+<br>
+<tt><b>8</b></tt>
+</blockquote>
+
+<a name="dowhile">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>DO.WHILE</b> <i>cmdlist</i> <i>condlist</i>
+</p>
+
+<p>
+The given condlist is parsed as a sequence of Logo commands. It must evaluate to a boolean value. As long as the condlist evaluates to true, the given cmdlist is parsed as a sequence of Logo commands and repeatedly executed. The cmdlist should not evaluate to a value. The cmdlist is evaluated first, so it will always execute at least once. DO.WHILE never returns a value. If either list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running either list, DO.WHILE throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "x 1 DO.WHILE [PRINT :x MAKE "x :x*2] [:x&gt;10]</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>?</b> MAKE "x 1 DO.WHILE [PRINT :x MAKE "x :x*2] [:x&lt;10]</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>4</b></tt>
+<br>
+<tt><b>8</b></tt>
+</blockquote>
+
+<a name="dountil">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>DO.UNTIL</b> <i>cmdlist</i> <i>condlist</i>
+</p>
+
+<p>
+The given condlist is parsed as a sequence of Logo commands. It must evaluate to a boolean value. Until the condlist evaluates to true, the given cmdlist is parsed as a sequence of Logo commands and repeatedly executed. The cmdlist should not evaluate to a value. The cmdlist is evaluated first, so it will always execute at least once. DO.UNTIL never returns a value. If either list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running either list, DO.UNTIL throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "x 1 DO.UNTIL [PRINT :x MAKE "x :x*2] [:x&gt;10]</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>4</b></tt>
+<br>
+<tt><b>8</b></tt>
+<br>
+<tt><b>?</b> MAKE "x 1 DO.UNTIL [PRINT :x MAKE "x :x*2] [:x&lt;10]</tt>
+<br>
+<tt><b>1</b></tt>
+</blockquote>
+
+<a name="for">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.LibraryPrimitives</i></tt></td></tr>
+</table>
+<b>FOR</b> <i>controllist</i> <i>cmdlist</i>
+</p>
+
+<p>
+The given control list should be of the form [varname start end step]. A new symbol level is created on the stack, and the given varname is declared local and set to start. As long as the variable has not gone past end, the given cmdlist is run, and then the variable is changed by step. If there are only three elements in the control list, the step is assumed to be 1. The cmdlist should not evaluate to a value. Going "past" end means, more precisely, var&gt;end if step&gt;0, or var&lt;end if step&lt;0. Note that a new symbol level is created within the loop, so any variables declared local within the loop will not exist outside the scope of the loop. FOR never returns a value. If the control list is invalid, the cmdlist list cannot be parsed as a valid sequence of Logo commands, or if an error occurs while running it, FOR throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> FOR [i 1 10 2] [print :i]</tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<tt><b>5</b></tt>
+<br>
+<tt><b>7</b></tt>
+<br>
+<tt><b>9</b></tt>
+<br>
+<tt><b>?</b> FOR [i 1 10 -2] [print :i]</tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_thread">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Threads</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Turtle Tracks provides a simple yet powerful set of multitasking tools using threads. These threads share the same global names, procedures, property lists and open streams, but have separate call stacks and current I/O settings. Turtle Tracks threads are pre-emptive and time-sliced; however, all workspace manipulation primitives and i/o functions are guaranteed to be atomic. In addition, a small library of synchronization primitives is provided.
+</p>
+
+<a name="thread">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>THREAD</b> <i>cmdlist</i>
+<br>
+<b>(</b><b>THREAD</b> <i>lambda</i> <i>argslist</i><b>)</b>
+</p>
+
+<p>
+THREAD executes the given command list or lambda in a new thread. It generates a unique id for the new thread, and the new thread runs concurrently with the current thread. THREAD does not return a value. If the command input is a lambda list or a procedure or primitive name, then the arguments are given to the thread as local variables in the toplevel scope. If the given command input is not a command list, a well-formed lambda list, or a procedure or primitive name, or the given argslist is not a list, THREAD throws an error. If an error occurs while parsing or executing the command list, THREAD returns normally and an error is thrown within the new thread.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> THREAD [PRINT 1 PRINT 2] PRINT "a PRINT "b</tt>
+<br>
+<tt><b>a</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>b</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>?</b> (THREAD [[x][REPEAT :x [PRINT REPCOUNT]]] [3]) REPEAT 3 [PRINT 10*REPCOUNT]</tt>
+<br>
+<tt><b>10</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>20</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>30</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above examples show only one possibile output</i>
+</blockquote>
+
+<a name="threadrun">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>THREADRUN</b> <i>cmdlist</i>
+<br>
+<b>(</b><b>THREADRUN</b> <i>threadid</i> <i>cmdlist</i><b>)</b>
+</p>
+
+<p>
+THREADRUN executes the given command list in a new thread. If a threadid is specified, THREADRUN gives the new thread that id; otherwise THREADRUN generates a unqiue threadid for the thread. In either case, THREADRUN does not return any value. The new thread runs concurrently with the current thread. If the given command input is not a command list or the given threadid is not a word, THREADRUN throws an error. If an error occurs while parsing or executing the command list, THREADRUN returns normally and an error is thrown within the new thread.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> THREADRUN [PRINT 1 PRINT 2] PRINT "a PRINT "b</tt>
+<br>
+<tt><b>a</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>b</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above example shows only one possibile output</i>
+</blockquote>
+
+<a name="threadrunid">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>THREADRUNID</b> <i>cmdlist</i>
+<br>
+<b>(</b><b>THREADRUNID</b> <i>threadid</i> <i>cmdlist</i><b>)</b>
+</p>
+
+<p>
+THREADRUNID executes the given command list in a new thread. If a threadid is specified, THREADRUNID gives the new thread that id; otherwise THREADRUNID generates a unqiue threadid for the thread. In either case, THREADRUNID returns the id of the new thread. The new thread runs concurrently with the current thread. If the given command input is not a command list or the given threadid is not a word, THREADRUN throws an error. If an error occurs while parsing or executing the command list, THREADRUN returns normally and an error is thrown within the new thread.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT THREADRUNID [PRINT 1 PRINT 2] PRINT "a PRINT "b</tt>
+<br>
+<tt><b>__t1</b></tt>
+<br>
+<tt><b>a</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>b</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>?</b> PRINT (THREADRUNID "my.thread [PRINT 1 PRINT 2]) PRINT "a PRINT "b</tt>
+<br>
+<tt><b>my.thread</b></tt>
+<br>
+<tt><b>a</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>b</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above examples show only one possibile output</i>
+</blockquote>
+
+<a name="threadapply">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>THREADAPPLY</b> <i>lambda</i> <i>argslist</i>
+<br>
+<b>(</b><b>THREADAPPLY</b> <i>threadid</i> <i>lambda</i> <i>argslist</i><b>)</b>
+</p>
+
+<p>
+THREADAPPLY executes the given lambda in a new thread. If a threadid is specified, THREADAPPLY gives the new thread that id; otherwise, THREADAPPLY generates a unqiue threadid for the thread. In either case, THREADAPPLY returns nothing. The new thread runs concurrently with the current thread. The arguments are given to the thread as local variables in the toplevel scope. If the given command input is not a well-formed lambda list or a procedure or primitive name, the given argslist is not a list, or the given threadid is not a word, THREADAPPLY throws an error. If an error occurs while parsing or executing the lambda, THREADAPPLY returns normally and an error is thrown within the new thread.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> THREADAPPLY [[x][REPEAT :x [PRINT REPCOUNT]]] [3] REPEAT 3 [PRINT 10*REPCOUNT]</tt>
+<br>
+<tt><b>10</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>20</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>30</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above examples show only one possibile output</i>
+</blockquote>
+
+<a name="threadapplyid">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>THREADAPPLYID</b> <i>lambda</i> <i>argslist</i>
+<br>
+<b>(</b><b>THREADAPPLYID</b> <i>threadid</i> <i>lambda</i> <i>argslist</i><b>)</b>
+</p>
+
+<p>
+THREADAPPLYID executes the given lambda in a new thread. If a threadid is specified, THREADAPPLYID gives the new thread that id; otherwise, THREADAPPLYID generates a unqiue threadid for the thread. In either case, THREADAPPLYID returns the id of the new thread. The new thread runs concurrently with the current thread. The arguments are given to the thread as local variables in the toplevel scope. If the given command input is not a well-formed lambda list or a procedure or primitive name, the given argslist is not a list, or the given threadid is not a word, THREADAPPLYID throws an error. If an error occurs while parsing or executing the lambda, THREADAPPLYID returns normally and an error is thrown within the new thread.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT THREADAPPLYID [[x][REPEAT :x [PRINT REPCOUNT]]] [3] REPEAT 3 [PRINT 10*REPCOUNT]</tt>
+<br>
+<tt><b>__t1</b></tt>
+<br>
+<tt><b>10</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>20</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>30</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<tt><b>?</b> PRINT (THREADAPPLYID "my.thread [[x][REPEAT :x [PRINT REPCOUNT]]] [3]) REPEAT 3 [PRINT 10*REPCOUNT]</tt>
+<br>
+<tt><b>my.thread</b></tt>
+<br>
+<tt><b>10</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>20</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>30</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above examples show only one possibile output</i>
+</blockquote>
+
+<a name="threadterminate">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>THREADTERMINATE</b> <i>threadid</i>
+</p>
+
+<p>
+THREADTERMINATE stops the thread with the given id, by throuwing a .SUDDENSTOPTHREAD exception within the thread. If no running thread has the given id, THREADTERMINATE does nothing. If the given threadid is not a word, THREADTERMINATE throws an error. Note that the .SUDDENSTOPTHREAD exception may be caught by the thread being terminated, if it needs to perform any clean-up. If this is done, the thread MUST rethrow the exception.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> MAKE "id THREADRUNID [PRINT 1 PRINT 2] PRINT "a THREADTERMINATE :id PRINT "b</tt>
+<br>
+<tt><b>a</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>b</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above example shows only one possibile output</i>
+</blockquote>
+
+<a name="currentthread">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>CURRENTTHREAD</b>
+</p>
+
+<p>
+CURRENTTHREAD returns the threadid of the currently running thread. The main thread is given the name ".MAIN" by the Logo runtime system.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> (THREADRUN "inside.id [PRINT SENTENCE "inside CURRENTTHREAD]) PRINT SENTENCE "outside CURRENTTHREAD</tt>
+<br>
+<tt><b>outside .MAIN</b></tt>
+<br>
+<tt><b>inside inside.id</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above example shows only one possibile output</i>
+</blockquote>
+
+<a name="critical">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>CRITICAL</b> <i>criticalid</i> <i>cmdlist</i>
+</p>
+
+<p>
+CRITICAL runs the given runnable list in a critical section with the given name. Only one thread at a time can be running a critical section with a particular name. When CRITICAL is encountered, if another thread is already running a CRITICAL section with that name, CRITICAL will block until the other thread has finished running its list. If the given critical section id is not a word, or the second argument cannot be parsed as a runnable list, CRITICAL throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> THREADRUN [CRITICAL "my.critical [PRINT 1 PRINT 2]] CRITICAL "my.critical [PRINT "a PRINT "b]</tt>
+<br>
+<tt><b>a</b></tt>
+<br>
+<tt><b>b</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above example shows only one possibile output</i>
+</blockquote>
+
+<a name="barrier">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>BARRIER</b> <i>barrierid</i> <i>integer</i>
+</p>
+
+<p>
+BARRIER defines a barrier with the given name and thread count. BARRIER blocks until the given number of threads have called BARRIER with that name. Once a barrier becomes unblocked, the count is reset to zero; therefore, a barrier can be re-used. If the given barrierid is not a word, the given thread count is not an integer, or the given thread count does not match the thread counts given by other concurrent calls to BARRIER with the same barrier id, then BARRIER throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> (THREADRUN "thread1 [PRINT 1 PRINT 2 PRINT 3 BARRIER "my.barrier 2]) PRINT "a BARRIER "my.barrier 2 PRINT "b</tt>
+<br>
+<tt><b>a</b></tt>
+<br>
+<tt><b>1</b></tt>
+<br>
+<tt><b>2</b></tt>
+<br>
+<tt><b>3</b></tt>
+<br>
+<tt><b>b</b></tt>
+<br>
+<i>Note: Because thread scheduling is non-deterministic, the above example shows only one possibile output</i>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+<a name="_error">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Error Handling</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Logo provides error handling similar to C++ or Tcl exceptions.
+</p>
+
+<a name="throw">
+<p>
+<hr align=left width="50%">
+<b>THROW</b> <i>tag</i>
+<br>
+<b>(</b><b>THROW</b> <i>tag</i> <i>value</i><b>)</b>
+</p>
+
+<p>
+THROW causes an exception with the given tag word to be thrown. If a value is specified, that value is thrown with the exception, and can be retrieved by an enclosing CATCH or TRY command. If the given tag is not a word, THROW instead throws an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> PRINT "before THROW "my.error PRINT "after</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>Uncaught: my.error</b></tt>
+<br>
+<tt><b>?</b> PRINT "before (THROW "my.error "val ) PRINT "after</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>Uncaught: my.error with value val</b></tt>
+<br>
+<tt><b>?</b> CATCH "my.error [PRINT "before THROW "my.error PRINT "after]</tt>
+<br>
+<tt><b>before</b></tt>
+</blockquote>
+
+<a name="catch">
+<p>
+<hr align=left width="50%">
+<b>CATCH</b> <i>tag</i> <i>cmdlist</i>
+</p>
+
+<p>
+CATCH executes the given command list. If an exception of the same id as the given tag is thrown while executing the command list, CATCH will "catch" the exception, and it will not propogate any further out. If the given tag is a word, it is interpreted as a single tag word. If it is a list, the elements of the list are interpreted as the tag words to catch. If the given tag is the empty list [], it is treated as a wildcard and will catch any exception. If the command list evaluates to a value and does not throw an exception, then CATCH will return that value. If an exception is thrown with an accompanying value, CATCH returns that value. If the command list does not evaluate to a value, or an exception is thrown without an accompanying value, CATCH returns nothing. If a non-list is given as the command list input, or if the tag list contains non-word elements, CATCH throws an error. If the input is a list but cannot be parsed as a valid sequence of Logo commands, CATCH will behave as if an error were thrown out of the command list.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> CATCH "my.error [PRINT "before THROW "my.error PRINT "after]</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>?</b> CATCH "my.error [PRINT "before THROW "my.error2 PRINT "after]</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>Uncaught: my.error2</b></tt>
+<br>
+<tt><b>?</b> CATCH [my.error my.error2] [PRINT "before THROW "my.error2 PRINT "after]</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>?</b> PRINT SENTENCE [Caught error:] CATCH "ERROR [PRINT]</tt>
+<br>
+<tt><b>Caught error: Not enough inputs...</b></tt>
+</blockquote>
+
+<a name="try">
+<p>
+<hr align=left width="50%">
+<b>TRY</b> <i>cmdlist</i> <i>tag</i> <i>catchcmdlist</i>
+<br>
+<b>(</b><b>TRY</b> <i>cmdlist</i> <i>tag1</i> <i>catchcmdlist1</i> ...<b>)</b>
+</p>
+
+<p>
+TRY executes the given command list. If an exception of the same id as any of the given tags is thrown, TRY will "catch" the exception, and it will not propogate any further out. If the given tag is a word, it is interpreted as a single tag word. If it is a list, the elements of the list are interpreted as the tag words to catch. If the given tag is the empty list [], it is treated as a wildcard and will catch any exception. Furthermore, TRY will excute the catchcmdlist associated with the caught tag. The catchcmdlist may be a command list or a lambda. If it is a lambda, it must take two arguments, which are bound to the caught exception and the associated value.
+</p>
+<p>
+If the command list evaluates to a value and does not throw an exception, then TRY will return that value. If an exception is thrown and caught, and the command list associated with the caught exception evaluates to a value (or if it is a non-macro lambda and outputs a value), TRY returns that value. If no command list executed evaluates to a value, TRY returns nothing. If a non-list is given as the command list input, or if the given tag list contains non-word members, TRY throws an error. If the input is a list but cannot be parsed as a valid sequence of Logo commands, TRY will behave as if an error were thrown out of the command list. The version of TRY enclosed by parens may include any number of tags to catch. Each tag, however, must be accompanied by a command list-- that is, TRY must take an odd number of inputs. If an even number of inputs is given to TRY, it will throw an error.
+</p>
+
+<blockquote>
+<i>Example:</i>
+<br>
+<tt><b>?</b> TRY [PRINT "before THROW "my.error PRINT "after] "my.error [PRINT "caught]</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>caught</b></tt>
+<br>
+<tt><b>?</b> TRY [PRINT "before THROW "my.error2 PRINT "after] "my.error [PRINT "caught]</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>Uncaught: my.error2</b></tt>
+<br>
+<tt><b>?</b> TRY [PRINT "before THROW "my.error2 PRINT "after] [my.error my.error2] [PRINT "caught]</tt>
+<br>
+<tt><b>before</b></tt>
+<br>
+<tt><b>caught</b></tt>
+<br>
+<tt><b>?</b> PRINT SENTENCE [Caught error:] TRY [PRINT] "ERROR [[x y][OUTPUT [My error]]]</tt>
+<br>
+<tt><b>Caught error: My error</b></tt>
+<br>
+<tt><b>?</b> TRY [THROW "my.error] [] [[x y] [PRINT SENTENCE "Caught :x]]</tt>
+<br>
+<tt><b>Caught my.error</b></tt>
+<br>
+<tt><b>?</b> TRY [(THROW "my.error [error value])] [] [[x y] [PRINT (SENTENCE "Caught :x [with value] :y)]]</tt>
+<br>
+<tt><b>Caught my.error with value error value</b></tt>
+</blockquote>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+<a name="_jump">
+<p>
+<hr size=1 noshade>
+<table width="100%" bgcolor="#ccffcc" cellpadding=3 cellspacing=0><tr><td>
+<font size="+1"><b>Jump Commands</b></font>
+</td></tr></table>
+</p>
+
+<p>
+Jump commands cause an immediate jump to some point outside the current scope. Jump commands are actually implemented as throws; thus each jump has an equivalent THROW command associated with it. Because of this, jumps may also be caught to prevent their normal completion.
+</p>
+
+<a name="toplevel">
+<p>
+<hr align=left width="50%">
+<b>TOPLEVEL</b>
+<br>
+<b>THROW "TOPLEVEL</b>
+</p>
+
+<p>
+TOPLEVEL causes all interpreter activity to cease, and control to be given back to the Logo console. This includes all running threads. First, the current thread is terminated by propogating the exception to the top of the thread. Once the current thread has been stopped, all other threads are killed. If a TOPLEVEL is caught and does not propogate to the top of the current thread, any other running threads are left intact.
+</p>
+
+<a name="stopthread">
+<p>
+<hr align=left width="50%">
+<table align=right border=1 cellpadding=2 cellspacing=0>
+<tr><td nowrap><tt><i>virtuoso.logo.lib.ThreadPrimitives</i></tt></td></tr>
+</table>
+<b>STOPTHREAD</b>
+<br>
+<b>THROW "STOPTHREAD</b>
+</p>
+
+<p>
+STOPTHREAD terminates the current thread by propogating the exception to the top of the thread. No other threads are affected. If the current thread is the only running thread, then control is returned to the Logo console.
+</p>
+
+<a name="output">
+<p>
+<hr align=left width="50%">
+<b>OUTPUT</b> <i>expr</i>
+<br>
+<b>(</b><b>THROW "STOP</b> <i>expr</i><b>)</b>
+</p>
+
+<p>
+OUTPUT causes the innermost executing procedure to stop execution and produce as a return value the given expression. Note that the associated THROW tag is "STOP.
+</p>
+
+<a name="stop">
+<p>
+<hr align=left width="50%">
+<b>STOP</b>
+<br>
+<b>THROW "STOP</b>
+</p>
+
+<p>
+STOP causes the innermost executing procedure to stop execution and not generate a return value.
+</p>
+
+<a name="goodbye">
+<p>
+<hr align=left width="50%">
+<b>GOODBYE</b>
+<br>
+<b>BYE</b>
+<br>
+<b>THROW "GOODBYE</b>
+</p>
+
+<p>
+GOODBYE exits the Logo runtime environment. This includes shutting down all running threads and closing down any user interface elements. First, the current thread is terminated by propogating the exception to the top of the thread. Once the current thread has been stopped, all other threads are killed. If a GOODBYE is caught and does not propogate to the top of the current thread, the other running threads are left intact and the runtime environment is not terminated.
+</p>
+
+<p>
+<a href="#top"><img src="arrowbullet.gif" border=0 width=16 height=9 alt="*">Top</a>
+</p>
+
+
+
+
+
+
+
+<p>
+<hr size=1 noshade>
+
+<p>
+<address>
+<a href="http://www.alumni.caltech.edu/~dazuma/home/">Daniel Azuma</a>
+(<a href="mailto:dazuma@kagi.com">dazuma@kagi.com</a>)
+<br>
+Last updated 3 February 1999
+</address>
+
+<!--#exec cmd="/home/dazuma/www/cgi/vwslog /home/dazuma/www/stats/ttlog.txt" -->
+
+</body>
+
+</html>
